@@ -1,3 +1,4 @@
+console.log("Loaded  canvas worker")
 message = function({canvas}){
     /**
      * @type {CanvasRenderingContext2D}
