@@ -1,5 +1,5 @@
-import {updateMoleculePosition} from "physics.js";
-import {drawMolecule} from "drawer.js";
+/* import {updateMoleculePosition} from "physics.js";
+import {drawMolecule} from "drawer.js" */;
 
 const startAnimation = (canvas, ctx) =>{
     const molecules = Array(100).fill({r:15, velX:1, velY:1})
