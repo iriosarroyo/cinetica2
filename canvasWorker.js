@@ -1,5 +1,5 @@
 console.log("Loaded  canvas worker")
-message = function({canvas}){
+onmessage = function({canvas}){
     /**
      * @type {CanvasRenderingContext2D}
      */
