@@ -1,8 +1,9 @@
-export const updateMolecule = (molecule, minMax) => {
+export const updateMoleculePosition = (molecule, minMax) => {
+    const {x, y, velX, velY} = molecule;
     const {minX, minY, maxX, maxY} = minMax;
     return {
        ...molecule,
-        x: Math.random() * maxX,
-        y: Math.random() * maxY
+        x: x + velX,
+        y: y + velY
     }
 }

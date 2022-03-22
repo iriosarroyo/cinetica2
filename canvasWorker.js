@@ -1,9 +1,9 @@
-import {updateMolecule} from "physics.js";
+import {updateMoleculePosition} from "physics.js";
 import {drawMolecule} from "drawer.js";
 
 const startAnimation = (canvas, ctx) =>{
-    const molecules = Array(100).fill({r:15})
-        .map(molecule => updateMolecule(molecule,{maxX:canvas.width, maxY:canvas.height}))
+    const molecules = Array(100).fill({r:15, velX:1, velY:1})
+        .map(molecule => updateMoleculePosition(molecule,{maxX:canvas.width, maxY:canvas.height}))
     molecules.forEach(molecule => drawMolecule(molecule, ctx));
     console.log("hola")
 }
