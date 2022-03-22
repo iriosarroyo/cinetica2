@@ -1,9 +1,9 @@
 export const updateMoleculePosition = (molecule) => {
-    const {x = 0, y = 0, velX, velY} = molecule;
+    const {x = 0, y = 0, velX, velY, r} = molecule;
     return {
        ...molecule,
         x: x + velX,
-        y: y + velY
+        y: y + velY,
     }
 }
 
