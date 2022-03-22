@@ -1,12 +1,25 @@
-console.log("Loaded  canvas worker")
-onmessage = function({canvas}){
-    /**
-     * @type {CanvasRenderingContext2D}
-     */
-    console.log(canvas)
-    const ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    ctx.arc(50, 50, 4, 0, 2 * Math.PI);
-    ctx.stroke();
+import {updateMolecule} from "physics.js";
+import {drawMolecule} from "drawer.js";
 
+const startAnimation = (canvas, ctx) =>{
+    const molecules = Array(100).fill({r:15})
+        .map(molecule => updateMolecule(molecule,{maxX:canvas.width, maxY:canvas.height}))
+    molecules.forEach(molecule => drawMolecule(molecule, ctx));
+    console.log("hola")
 }
+
+const messageListener = (event) => {
+    const {canvas} = event.data;
+    console.log(canvas)
+    if(canvas){
+        /**
+         * @type {CanvasRenderingContext2D}
+         */
+        const ctx = canvas.getContext("2d");
+        console.log("hola")
+        startAnimation(canvas, ctx);
+    }
+}
+console.log("worker")
+
+addEventListener("message", messageListener);
