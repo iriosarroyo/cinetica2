@@ -13,6 +13,9 @@ export const checkWallCollisions = (molecule, minMax) =>{
     const {minX, minY, maxX, maxY} = minMax;
     const newX = Math.min(Math.max(x, minX + r), maxX - r);
     const newY = Math.min(Math.max(y, minY + r), maxY - r);
+    let fillStyle = "black"
+    if(newX !== x) fillStyle = "blue";
+    if(newY !== y) fillStyle = "green";
     return {
         ...molecule,
         x: newX,
@@ -20,7 +23,8 @@ export const checkWallCollisions = (molecule, minMax) =>{
         velX: newX === x ? velX : -velX,
         velY: newY === y ? velY : -velY,
         minX: x - r,
-        maxX: x + r
+        maxX: x + r,
+        fillStyle,
     }
 }
 
