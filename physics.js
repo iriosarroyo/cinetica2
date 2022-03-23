@@ -90,6 +90,7 @@ export const allCollisionCheck = (molecules) =>{
             offset++;
         }
     }
+    //
     /* const result = [...molecules];
     molecules.forEach((molecule, idx) =>{
         molecules.forEach((molecule2, idx2)=>{
