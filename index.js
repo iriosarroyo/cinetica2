@@ -7,7 +7,7 @@ const offscreen = document.querySelector("canvas.playground").transferControlToO
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0;
-let molecules = Array(1000)
+let molecules = Array(10)
     .fill({r:15})
     .map(x =>{
         return {...x, velX: (Math.random() - 0.5) * 0.1, velY: (Math.random() - 0.5) * 0.1}

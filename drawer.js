@@ -1,5 +1,5 @@
 export const drawMolecule = (molecule, ctx) =>{
-    const {x, y, r, velX, velY} = molecule;
+    const {x, y, r, velX, velY, collisioned} = molecule;
     const angle = Math.atan(Math.abs(velY/velX))
     const distX = 1.5 * r * Math.cos(angle);
     const distY = 1.5 * r * Math.sin(angle);
@@ -8,7 +8,12 @@ export const drawMolecule = (molecule, ctx) =>{
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI*2);
     //ctx.stroke();
-    ctx.fill();
+    if(!collisioned){
+        const style = ctx.fillStyle;
+        ctx.fillStyle = "purple";
+        ctx.fill();
+        ctx.fillStyle = style
+    }else ctx.fill();
     ctx.moveTo(x, y);
     ctx.lineTo(endX, endY);
     ctx.stroke();

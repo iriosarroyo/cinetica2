@@ -4,7 +4,7 @@ export const calculateFPScreator = (maxSize) =>{
     return () => {
         const now = performance.now();
         const nextFps = 1000/(now - lastTime);
-        fpsHistory = [nextFps, ...fpsHistory.slice(0,maxSize)];
+        fpsHistory = [nextFps, ...fpsHistory.slice(0, maxSize - 1)];
         lastTime = now;
         console.log(fpsHistory)
         const averageFPS = Math.round(fpsHistory.reduce((acum, val) => acum + val) / fpsHistory.length);
