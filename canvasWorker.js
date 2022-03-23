@@ -11,7 +11,7 @@ const messageListener = (event) => {
         cv = canvas;
         ctx = canvas.getContext("2d");
         ctx.font = "15px Arial";
-        ctx.strokeStyle = "rgb(0, 126, 126)"
+        ctx.strokeStyle = "rgb(0, 126, 126)";
     }
     if(msg === "draw"){
         ctx.clearRect(0, 0, cv.width, cv.height);
@@ -23,6 +23,7 @@ const messageListener = (event) => {
             ctx.fillStyle = idx;
             value.forEach((molecule) => drawMolecule(molecule, ctx))
         })
+        console.log(ctx.strokeStyle)
         const now = performance.now();
         const nextFps = 1000/(now - lastTime);
         fps = [nextFps, ...fps.slice(0,10)];
