@@ -1,6 +1,13 @@
+import { randomBetween } from "./helper";
+
 export const updateMoleculePosition = (molecule) => {
-    const {x = Math.random() * 1000, y = Math.random()*600, velX, velY, 
-        r, duration, fillStyle, lastTime = performance.now()} = molecule;
+    const {
+        r,
+        x = randomBetween(r, window.innerWidth - r), 
+        y = randomBetween(r, window.innerHeight - r), 
+        velX = randomBetween(-1, 1), 
+        velY = randomBetween(-1, 1), 
+        duration, fillStyle, lastTime = performance.now()} = molecule;
     const now = performance.now();
     const dt = now - lastTime;
     return {

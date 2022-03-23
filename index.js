@@ -9,9 +9,6 @@ const fps = calculateFPScreator(1000);
 let phFPS = 0;
 let molecules = Array(10)
     .fill({r:15})
-    .map(x =>{
-        return {...x, velX: (Math.random() - 0.5) * 0.3, velY: (Math.random() - 0.5) * 0.3}
-    })
     .map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
 
@@ -48,6 +45,6 @@ window.addEventListener("click", (event)=>{
         minimum = distance;
         index = idx
     });
-    molecules[index] = {...molecules[index], fillStyle:"purple", duration: 100}
+    molecules[index] = {...molecules[index], fillStyle:"purple", duration: 1000}
     console.log(molecules, molecules[index], index)
 })
