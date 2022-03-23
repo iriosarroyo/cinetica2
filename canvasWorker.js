@@ -1,10 +1,15 @@
 import { drawMolecule } from "./drawer.js";
 
-let cv, ctx;
+let cv,lastTime = performance.now();
+/**
+ * @type {CanvasRenderingContext2D}
+*/
+let ctx;
 const messageListener = (event) => {
     const {canvas, msg, molecules, h, w} = event.data;
     if(msg === "start"){
         cv = canvas;
+        
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
@@ -17,6 +22,10 @@ const messageListener = (event) => {
             ctx.fillStyle = idx;
             value.forEach((molecule) => drawMolecule(molecule, ctx))
         })
+        const now = performance.now();
+        const fps = Math.round(1000/(now - lastTime));
+        lastTime = now;
+        ctx.fillText(fps, cv.width - 26, 20);
     }
     if(msg === "update"){
         cv.height = h;
