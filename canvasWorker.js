@@ -8,10 +8,12 @@ let cv, fps = calculateFPScreator(10), molecules2Draw, physicsFPS;
 let ctx;
 
 const draw = () =>{
-    console.time("initial")
+    console.time("reset")
     ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.font = "15px Arial";
     ctx.strokeStyle = 'rgb(0,128,128)';
+    console.timeEnd("reset")
+    console.time("initial")
     const fillStyles = new Map();
     molecules2Draw.forEach((molecule) =>{
         fillStyles.set(molecule.fillStyle, [...(fillStyles.get(molecule.fillStyle) ?? []), molecule])
