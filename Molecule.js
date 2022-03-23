@@ -78,6 +78,21 @@ export class Molecule{
         return true;
     }
 
+    showInfo(div){
+        div.innerHTML = `<strong>x</strong><span>${Math.round(this.x)}</span>
+        <strong>y</strong><span>${Math.round(this.y)}</span>
+        <strong>vel. x</strong><span>${Math.round(this.velY * 100) / 100}</span>
+        <strong>vel. y</strong><span>${Math.round(this.velY * 100) / 100}</span>
+        <strong>min. x</strong><span>${Math.round(this.minX)}</span>
+        <strong>max. x</strong><span>${Math.round(this.maxX)}</span>
+        <strong>collisioned</strong><span>${this.collisioned}</span>
+        <strong>fill style</strong><span>${this.fillStyle}</span>
+        <strong>selected</strong><span>${this.selected}</span>
+        <strong>last update</strong><span>${Math.round(performance.now()- this.lastTime)}</span>
+        <strong>style time</strong><span>${this.fillDuration}</span>
+        `
+    }
+
     set selected(val){
         if(!val) return this.#selected = false;
         this.#fillStyle = "purple";
