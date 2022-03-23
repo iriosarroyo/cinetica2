@@ -13,9 +13,6 @@ const draw = () =>{
     ctx.font = "15px Arial";
     ctx.strokeStyle = 'rgb(0,128,128)';
     console.timeEnd("reset")
-    console.time("initial")
-    
-    console.timeEnd("initial")
     console.time("render")
     Object.entries(moleculesByStyle).forEach(([key, value])=>{
         ctx.fillStyle = key;

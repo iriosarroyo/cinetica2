@@ -53,7 +53,11 @@ window.addEventListener("resize", resizeCanvas);
 setInterval(physicsLoop)
 physicsLoop();
 //drawLoop();
-worker.postMessage({msg:"draw", molecules, phFPS, first:true})
+const fillStyles = {};
+molecules.forEach((molecule) =>{
+    fillStyles[molecule.fillStyle] = [...(fillStyles[molecule.fillStyle] ?? []), molecule]
+})
+worker.postMessage({msg:"draw", molecules:fillStyles, phFPS, first:true})
 
 window.addEventListener("click", (event)=>{
     const {clientX, clientY} = event;
