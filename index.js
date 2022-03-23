@@ -4,6 +4,7 @@ import { checkWallCollisions } from "./physics.js";
 
 const offscreen = document.querySelector("canvas.playground").transferControlToOffscreen();
 const worker = new Worker("./canvasWorker.js", {type: "module"});
+const fps = calculateFPScreator();
 let molecules = Array(100)
     .fill({r:15})
     .map(x => ({...x, velX: (Math.random() - 0.5) * 2, velY: (Math.random() - 0.5) * 2}))
@@ -17,7 +18,8 @@ const physicsLoop = () =>{
     molecules = allCollisionCheck(molecules);
     /* molecules = allCollisionCheck(molecules);
     molecules = allCollisionCheck(molecules); */
-    setTimeout(physicsLoop)
+    console.log(fps());
+    setTimeout(physicsLoop, 40)
 };
 
 const drawLoop = () =>{
