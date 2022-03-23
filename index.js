@@ -7,7 +7,7 @@ const worker = new Worker("./canvasWorker.js", {type: "module"});
 const resizeCanvas = () => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
 let molecules = Array(100)
     .fill({r:15})
-    .map(x => ({...x, velX: Math.random() - 0.5, velY: Math.random - 0.5}))
+    .map(x => ({...x, velX: Math.random() - 0.5, velY: Math.random() - 0.5}))
     .map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
 
