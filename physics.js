@@ -36,8 +36,18 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
 //this functin mutates objects !!!
 export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
-        const {velX, velY} = molecule;
-        const {velX:vX2, velY:vY2} = molecule2;
+        const {velX, velY, x, y, r} = molecule;
+        const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule2;
+        const distance = r + r2;
+        const dX = Math.abs(x - x2);
+        const dY = Math.abs(y - y2);
+        const angle = Math.atan(dY/dX);
+        const newDX = distance * Math.cos(angle);
+        const newDY = distance * Math.sin(angle);
+        const newX = x2 < x ? x - newDX : x + newDX;
+        const newY = y2 < y ? y - newDY : y + newDY;
+        molecule2.x = newX;
+        molecule2.y = newY;
         molecule.velX = vX2;
         molecule.velY = vY2;
         molecule.fillStyle = "red";
