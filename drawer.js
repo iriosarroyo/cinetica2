@@ -1,6 +1,7 @@
 export const drawMolecule = (molecule, ctx) =>{
     const { y, r, velX, velY} = molecule;
     const x = molecule.x;
+    console.log(molecule)
     const angle = Math.atan(Math.abs(velY/velX))
     const distX = 1.5 * r * Math.cos(angle);
     const distY = 1.5 * r * Math.sin(angle);
