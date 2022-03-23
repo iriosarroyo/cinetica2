@@ -34,9 +34,9 @@ const physicsLoop = () =>{
     allCollisionCheck(molecules);
     phFPS = fps();
     if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
-    const fillStyles = new Map();
+    const fillStyles = {};
     molecules.forEach((molecule) =>{
-        fillStyles.set(molecule.fillStyle, [...(fillStyles.get(molecule.fillStyle) ?? []), molecule])
+        fillStyles[molecule.fillStyle] = [...(fillStyles[molecule.fillStyle] ?? []), molecule]
     })
     worker.postMessage({msg:"draw", molecules:fillStyles, phFPS})
     //setTimeout(physicsLoop)
