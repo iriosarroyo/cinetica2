@@ -38,7 +38,7 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
         const {velX, velY, x, y, r} = molecule;
         const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule2;
-        /* const distance = r + r2;
+        const distance = r + r2;
         const dX = Math.abs(x - x2);
         const dY = Math.abs(y - y2);
         const angle = Math.atan(dY/dX);
@@ -46,24 +46,42 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
         const newDY = distance * Math.sin(angle);
         const newX = x2 < x ? x - newDX : x + newDX;
         const newY = y2 < y ? y - newDY : y + newDY;
-        molecule2.x = newX;
+        /* molecule2.x = newX;
         molecule2.y = newY; 
         molecule.velX = vX2;
-        molecule.velY = vY2; */
+        molecule.velY = vY2;
         molecule.fillStyle = "red";
         molecule2.fillStyle = "red";
         molecule2.velX = velX;
-        molecule2.velY = velY;
+        molecule2.velY = velY; */
+        return [{
+            ...molecule,
+            velX:vX2,
+            velY:vY2,
+            fillStyle:"red",
+        },{
+            ...molecule2,
+            velX,
+            velY,
+            fillStyle:"red",
+            x:newX,
+            y:newY
+        }]
     }
+    return [molecule, molecule2]
 }
 
 export const allCollisionCheck = (molecules) =>{
     molecules.sort((a,b) => a.minX - b.minX);
+    const result = [...molecules];
     for(let i = 0; i < molecules.length - 1; i++){
         let offset = 1;
         while(molecules[i + offset] && molecules[i].maxX >= molecules[i + offset].minX){
-            checkMoleculesCollision(molecules[i], molecules[i + offset]);
+            const [newMolec1, newMolec2] = checkMoleculesCollision(molecules[i], molecules[i + offset]);
+            result[i] = newMolec1;
+            result[i + offset] = newMolec2;
             offset++;
         }
     }
+    return result;
 }

@@ -14,7 +14,7 @@ let molecules = Array(100)
 const physicsLoop = () =>{
     molecules = molecules.map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
-    allCollisionCheck(molecules);
+    molecules = allCollisionCheck(molecules);
 };
 
 const drawLoop = () =>{
