@@ -9,7 +9,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, cv.width, cv.height);
         molecules.forEach(molecule => drawMolecule(molecule, ctx));
     }
     if(msg === "update"){
