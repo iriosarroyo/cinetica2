@@ -6,13 +6,15 @@ export const updateMoleculePosition = (molecule) => {
         r,
         x = randomBetween(r, window.innerWidth - r), 
         y = randomBetween(r, window.innerHeight - r), 
-        velX = randomBetween(-1, 1), 
-        velY = randomBetween(-1, 1), 
+        velX = randomBetween(-0.3, 0.3), 
+        velY = randomBetween(-0.3, 0.3), 
         duration = 0, fillStyle = "black", lastTime = performance.now()} = molecule;
     const now = performance.now();
     const dt = now - lastTime;
     return {
-       ...molecule,
+        ...molecule,
+        velX,
+        velY,
         x: x + velX * dt,
         y: y + velY * dt,
         fillStyle: duration < 1 ? "black" :  fillStyle,
