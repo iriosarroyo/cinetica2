@@ -89,7 +89,7 @@ export const allCollisionCheck = (molecules) =>{
         molecules.forEach((molecule2, idx2)=>{
             const [newMolec1, newMolec2] = checkMoleculesCollision(molecule, molecule2);
             molecules[idx] = newMolec1;
-            molecules[idx] = newMolec2;
+            molecules[idx2] = newMolec2;
         })
     })
     return molecules;

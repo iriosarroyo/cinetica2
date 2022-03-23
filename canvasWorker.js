@@ -1,7 +1,7 @@
 import { drawMolecule } from "./drawer.js";
 import { calculateFPScreator } from "./helper.js";
 
-let cv, fps = calculateFPScreator();
+let cv, fps = calculateFPScreator(10);
 /**
  * @type {CanvasRenderingContext2D}
 */
