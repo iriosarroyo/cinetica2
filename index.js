@@ -47,6 +47,6 @@ window.addEventListener("click", (event)=>{
         if( distance < minimum) minimum = distance;
         index = idx
     });
-    molecules[index] = {...molecules[idx], fillStyle:"purple", duration: 100}
+    molecules[index] = {...molecules[index], fillStyle:"purple", duration: 100}
     console.log(molecules, molecule, index)
 })
