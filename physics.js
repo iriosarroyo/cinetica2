@@ -74,7 +74,7 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
 }
 
 export const allCollisionCheck = (molecules) =>{
-    molecules.sort((a,b) => a.minX - b.minX);
+    /* molecules.sort((a,b) => a.minX - b.minX);
     //const result = [...molecules];
     for(let i = 0; i < molecules.length - 1; i++){
         let offset = 1;
@@ -84,6 +84,13 @@ export const allCollisionCheck = (molecules) =>{
             molecules[i + offset] = newMolec2;
             offset++;
         }
-    }
+    } */
+    molecules.forEach((molecule, idx) =>{
+        molecules.forEach((molecule2, idx2)=>{
+            const [newMolec1, newMolec2] = checkMoleculesCollision(molecule, molecule2);
+            molecules[idx] = newMolec1;
+            molecules[idx] = newMolec2;
+        })
+    })
     return molecules;
 }
