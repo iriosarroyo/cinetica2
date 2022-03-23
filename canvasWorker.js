@@ -11,7 +11,7 @@ const messageListener = (event) => {
         cv = canvas;
         ctx = canvas.getContext("2d");
         ctx.font = "15px Arial";
-        ctx.strokeStyle = "rgb(0, 126, 126)";
+        ctx.strokeStyle = 'blue';
     }
     if(msg === "draw"){
         ctx.clearRect(0, 0, cv.width, cv.height);
