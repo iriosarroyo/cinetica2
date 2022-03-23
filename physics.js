@@ -91,6 +91,7 @@ export const allCollisionCheck = (molecules) =>{
             }
             offset++;
         }
+        molecules[i] = checkWallCollisions(molecules[i], {minX: 0, minY:0, maxX:window.innerWidth, maxY:window.innerHeight})
     }
     //
     /* const result = [...molecules];
