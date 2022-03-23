@@ -86,7 +86,7 @@ export class Molecule{
         <strong>collisioned</strong><span>${this.collisioned}</span>
         <strong>fill style</strong><span>${this.fillStyle}</span>
         <strong>selected</strong><span>${this.selected}</span>
-        <strong>last update</strong><span>${Math.round((performance.now()- this.lastTime) * 100) * 0.01}</span>
+        <strong>last update</strong><span>${Math.round((this.lastTime) * 100) * 0.01}</span>
         <strong>style time</strong><span>${this.fillDuration}</span>
         `
     }
