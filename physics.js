@@ -18,6 +18,7 @@ export const checkWallCollisions = (molecule, minMax) =>{
         x: newX,
         y: newY,
         velX: newX === x ? velX : -velX,
+        velY: newY === y ? velY : -velY,
         minX: x - r,
         maxX: x + r
     }
