@@ -5,6 +5,7 @@ export class Molecule{
     #fillStyle
     #selected
     #x
+    #collisioned
     constructor(r, minMax){
         const {minX, minY, minVelX, minVelY, maxX, maxY, maxVelX, maxVelY} = minMax;
         this.r = r;
@@ -74,12 +75,6 @@ export class Molecule{
             molecule.velX = velX;
             molecule.velY = velY;
 
-            this.fillDuration = DEFAULT_DURATION;
-            molecule.fillDuration = DEFAULT_DURATION;
-
-            this.fillStyle = "red";
-            molecule.fillStyle = "red";
-
             this.collisioned = true;
             molecule.collisioned = true;
             return true;
@@ -92,6 +87,15 @@ export class Molecule{
         this.#fillStyle = "purple";
         this.#selected = true;
     }
+
+    set collisioned(val){
+        if(!val) return this.#collisioned = false;
+        this.#collisioned = true;
+        this.fillStyle = "red";
+        this.fillDuration = DEFAULT_DURATION;
+    }
+
+    get collisioned(){return this.#collisioned}
 
     get selected(){
         return this.#selected;
