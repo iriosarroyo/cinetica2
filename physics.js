@@ -62,7 +62,7 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
         molecule2.fillStyle = "red";
         molecule2.velX = velX;
         molecule2.velY = velY; */
-        return [{
+        return [true,{
             ...molecule,
             velX:vX2,
             velY:vY2,
@@ -80,7 +80,7 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
             duration: 100
         }]
     }
-    return [molecule, molecule2]
+    return [false,molecule, molecule2]
 }
 
 export const allCollisionCheck = (molecules) =>{
@@ -95,13 +95,15 @@ export const allCollisionCheck = (molecules) =>{
             offset++;
         }
     } */
-    const result = [];
+    const result = [...molecules];
     molecules.forEach((molecule, idx) =>{
         molecules.forEach((molecule2, idx2)=>{
             if(idx === idx2) return;
-            const [newMolec1, newMolec2] = checkMoleculesCollision(molecule, molecule2);
-            result[idx] = newMolec1;
-            result[idx2] = newMolec2;
+            const [hasCollissioned, newMolec1, newMolec2] = checkMoleculesCollision(molecule, molecule2);
+            if(hasCollissioned){
+                result[idx] = newMolec1;
+                result[idx2] = newMolec2;
+            }
         })
     })
     return result;
