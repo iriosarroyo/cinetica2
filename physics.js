@@ -43,7 +43,6 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
 //this functin mutates objects !!!
 export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
-        console.log(molecule, molecule2)
         const {velX, velY, x, y, r} = molecule;
         const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule2;
         const distance = r + r2;
