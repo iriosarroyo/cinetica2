@@ -3,4 +3,5 @@ export const drawMolecule = (molecule, ctx) =>{
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI*2);
     ctx.stroke();
+    ctx.fill();
 }
