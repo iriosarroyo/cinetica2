@@ -77,7 +77,9 @@ export class Molecule{
     }
 
     showInfo(div){
-        div.innerHTML = `<strong>x</strong><span>${Math.round(this.getX())}</span>
+        div.innerHTML = `
+        <strong>r</strong><span>${this.r}</span>
+        <strong>x</strong><span>${Math.round(this.getX())}</span>
         <strong>y</strong><span>${Math.round(this.y)}</span>
         <strong>vel. x</strong><span>${Math.round(this.velX * 100) * 0.01}</span>
         <strong>vel. y</strong><span>${Math.round(this.velY * 100) * 0.01}</span>
@@ -86,9 +88,9 @@ export class Molecule{
         <strong>collisioned</strong><span>${this.collisioned}</span>
         <strong>fill style</strong><span>${this.fillStyle}</span>
         <strong>selected</strong><span>${this.selected}</span>
-        <strong>last update</strong><span>${Math.round((this.lastTime) * 100) * 0.01}</span>
         <strong>style time</strong><span>${this.fillDuration}</span>
         `
+        //<strong>last update</strong><span>${Math.round((this.lastTime) * 100) * 0.01}</span>
     }
 
     set selected(val){
