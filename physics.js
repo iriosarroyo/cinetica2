@@ -84,9 +84,11 @@ export const allCollisionCheck = (molecules) =>{
     for(let i = 0; i < molecules.length - 1; i++){
         let offset = 1;
         while(molecules[i + offset] && molecules[i].maxX >= molecules[i + offset].minX){
-            const [newMolec1, newMolec2] = checkMoleculesCollision(molecules[i], molecules[i + offset]);
-            molecules[i] = newMolec1;
-            molecules[i + offset] = newMolec2;
+            const [hasCollisioned, newMolec1, newMolec2] = checkMoleculesCollision(molecules[i], molecules[i + offset]);
+            if(hasCollisioned){
+                molecules[i] = newMolec1;
+                molecules[i + offset] = newMolec2;
+            }
             offset++;
         }
     }
