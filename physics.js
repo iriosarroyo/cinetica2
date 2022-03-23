@@ -1,6 +1,5 @@
 export const updateMoleculePosition = (molecule) => {
     const {x = Math.random() * 1000, y = Math.random()*600, velX, velY, r, duration, fillStyle} = molecule;
-    console.log(duration, fillStyle)
     return {
        ...molecule,
         x: x + velX,
