@@ -44,9 +44,10 @@ window.addEventListener("click", (event)=>{
     let minimum = Infinity, index;
     molecules.forEach((molecule, idx) =>{
         const distance = (molecule.x - clientX)**2 + (molecule.y - clientY) ** 2
-        if( distance < minimum) minimum = distance;
+        if( distance >= minimum) return;
+        minimum = distance;
         index = idx
     });
     molecules[index] = {...molecules[index], fillStyle:"purple", duration: 100}
-    console.log(molecules, molecule, index)
+    console.log(molecules, molecules[index], index)
 })
