@@ -23,7 +23,6 @@ const messageListener = (event) => {
             ctx.fillStyle = idx;
             value.forEach((molecule) => drawMolecule(molecule, ctx))
         })
-        console.log(ctx.strokeStyle)
         const now = performance.now();
         const nextFps = 1000/(now - lastTime);
         fps = [nextFps, ...fps.slice(0,10)];
