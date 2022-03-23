@@ -8,7 +8,9 @@ const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(500);
 let molecules = Array(50)
     .fill({r:15})
-    .map(x => ({...x, velX: (Math.random() - 0.5) * 2, velY: (Math.random() - 0.5) * 2}))
+    .map(x =>{
+        return {...x, velX: (Math.random() - 0.5) * 2, velY: (Math.random() - 0.5) * 2}
+    })
     .map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
 
