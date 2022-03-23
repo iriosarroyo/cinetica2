@@ -1,7 +1,7 @@
 import { randomBetween } from "./helper.js";
 const DEFAULT_DURATION = 300; 
 
-class Molecule{
+export class Molecule{
     #fillStyle
     #selected
     #x
