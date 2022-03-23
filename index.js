@@ -9,7 +9,7 @@ const dataContainer = document.querySelector("div.data");
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0, selectedMolecule;
-let molecules = Array(10)
+let molecules = Array(1000)
     .fill(null)
     .map(() => new Molecule(15, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
 
@@ -45,7 +45,7 @@ const drawLoop = () =>{
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-setInterval(physicsLoop, 40)
+setInterval(physicsLoop)
 physicsLoop();
 drawLoop();
 

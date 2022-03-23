@@ -32,7 +32,7 @@ export class Molecule{
         this.setX(Math.min(Math.max(x, minX + r), maxX - r));
         this.y = Math.min(Math.max(y, minY + r), maxY - r);
         
-        this.fillDuration--;
+        this.fillDuration = Math.max(0, this.fillDuration - 1);
         if(this.getX() !== x) {
             this.setFillStyle("blue"); //Restablish fillDuration
             this.velX = -velX;
@@ -79,7 +79,7 @@ export class Molecule{
     showInfo(div){
         div.innerHTML = `<strong>x</strong><span>${Math.round(this.getX())}</span>
         <strong>y</strong><span>${Math.round(this.y)}</span>
-        <strong>vel. x</strong><span>${Math.round(this.velY * 100) * 0.01}</span>
+        <strong>vel. x</strong><span>${Math.round(this.velX * 100) * 0.01}</span>
         <strong>vel. y</strong><span>${Math.round(this.velY * 100) * 0.01}</span>
         <strong>min. x</strong><span>${Math.round(this.minX)}</span>
         <strong>max. x</strong><span>${Math.round(this.maxX)}</span>
