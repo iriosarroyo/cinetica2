@@ -1,6 +1,6 @@
 import { drawMolecule } from "./drawer.js";
 
-let cv,lastTime = performance.now();
+let cv,lastTime = performance.now(), fps = [];
 /**
  * @type {CanvasRenderingContext2D}
 */
@@ -23,9 +23,12 @@ const messageListener = (event) => {
             value.forEach((molecule) => drawMolecule(molecule, ctx))
         })
         const now = performance.now();
-        const fps = Math.round(1000/(now - lastTime));
+        const nextFps = 1000/(now - lastTime);
+        fps = [nextFps, ...fps.slice(0,10)];
         lastTime = now;
-        ctx.fillText(fps, cv.width - 26, 20);
+        const averageFPS = fps.reduce((acum, val) => acum + val) / fps.length;
+        ctx.font = "15px"
+        ctx.fillText(averageFPS, cv.width - 26, 20);
     }
     if(msg === "update"){
         cv.height = h;

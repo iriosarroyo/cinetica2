@@ -9,7 +9,6 @@ let molecules = Array(100)
     .map(x => ({...x, velX: (Math.random() - 0.5) * 2, velY: (Math.random() - 0.5) * 2}))
     .map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
-let refreshPhLopp = 100;
 
 const resizeCanvas = () => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
 const physicsLoop = () =>{
@@ -23,9 +22,8 @@ const drawLoop = () =>{
     window.requestAnimationFrame(drawLoop)
 };
 
-
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-setInterval(physicsLoop, refreshPhLopp)
+setInterval(physicsLoop)
 drawLoop();
