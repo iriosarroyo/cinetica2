@@ -1,7 +1,7 @@
 import { drawMolecule } from "./drawer.js";
 import { calculateFPScreator } from "./helper.js";
 
-let cv, fps = calculateFPScreator(10), molecules2Draw, physicsFPS;
+let cv, fps = calculateFPScreator(10), moleculesByStyle, physicsFPS;
 /**
  * @type {CanvasRenderingContext2D}
 */
@@ -14,13 +14,10 @@ const draw = () =>{
     ctx.strokeStyle = 'rgb(0,128,128)';
     console.timeEnd("reset")
     console.time("initial")
-    const fillStyles = new Map();
-    molecules2Draw.forEach((molecule) =>{
-        fillStyles.set(molecule.fillStyle, [...(fillStyles.get(molecule.fillStyle) ?? []), molecule])
-    })
+    
     console.timeEnd("initial")
     console.time("render")
-    fillStyles.forEach((value, idx)=>{
+    moleculesByStyle.forEach((value, idx)=>{
         ctx.fillStyle = idx;
         value.forEach((molecule) => drawMolecule(molecule, ctx))
     })
@@ -40,7 +37,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
-        molecules2Draw = molecules;
+        moleculesByStyle = molecules;
         physicsFPS = phFPS;
         if(first) draw();
     }
