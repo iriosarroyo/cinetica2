@@ -15,8 +15,9 @@ let molecules = Array(50)
 const resizeCanvas = () => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
 const physicsLoop = () =>{
     molecules = molecules.map(updateMoleculePosition)
-    .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
     molecules = allCollisionCheck(molecules);
+    molecules = molecules
+    .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
     /* molecules = allCollisionCheck(molecules);
     molecules = allCollisionCheck(molecules); */
     console.log(fps());
