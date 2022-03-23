@@ -9,6 +9,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         molecules.forEach(molecule => drawMolecule(molecule, ctx));
     }
     if(msg === "update"){
@@ -16,5 +17,4 @@ const messageListener = (event) => {
         cv.width = w;
     }
 }
-console.log("worker");
 addEventListener("message", messageListener);
