@@ -33,7 +33,7 @@ const physicsLoop = () =>{
     molecules.forEach(molecule => molecule.updatePosition())
     allCollisionCheck(molecules);
     phFPS = fps();
-    if(selectedMolecule){ selectedMolecule.showInfo() }
+    if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
     //setTimeout(physicsLoop)
 };
 
