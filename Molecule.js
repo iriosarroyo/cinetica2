@@ -1,8 +1,9 @@
-import { randomBetween } from "./helper";
+import { randomBetween } from "./helper.js";
 const DEFAULT_DURATION = 300; 
 
 class Molecule{
     #fillStyle
+    #selected
     #x
     constructor(r, minMax){
         const {minX, minY, minVelX, minVelY, maxX, maxY, maxVelX, maxVelY} = minMax;
@@ -85,6 +86,17 @@ class Molecule{
         }
         return false;
     }
+
+    set selected(val){
+        if(!val) return this.#selected = false;
+        this.#fillStyle = "purple";
+        this.#selected = true;
+    }
+
+    get selected(){
+        return this.#selected;
+    }
+
     set x(val){
         this.#x = val;
         this.minX = this.#x - this.r;
@@ -94,8 +106,7 @@ class Molecule{
         return this.#x
     }
     set fillStyle(style){
-        if(this.selected) return this.#fillStyle = "purple";
-        this.#fillStyle = style;
+        if(!this.selected) this.#fillStyle = style;
     }
     get fillStyle(){
         return this.#fillStyle;
