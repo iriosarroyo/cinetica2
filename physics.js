@@ -29,9 +29,9 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
     return distance <=  (r + r2) * (r + r2);
 }
 
+//this functin mutates objects !!!
 export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
         
     }
-    return [];
 }

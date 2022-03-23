@@ -1,6 +1,6 @@
-//import { drawMolecule } from "./drawer.js";
+import { drawMolecule } from "./drawer.js";
 
-/* const cv, ctx;
+let cv, ctx;
 const messageListener = (event) => {
     const {canvas, msg, molecules, h, w} = event.data;
     console.log(event.data)
@@ -16,6 +16,6 @@ const messageListener = (event) => {
         cv.height = h;
         cv.width = w;
     }
-} */
+}
 console.log("worker");
-/* addEventListener("message", messageListener); */
+addEventListener("message", messageListener);
