@@ -4,18 +4,20 @@ export const updateMoleculePosition = (molecule) => {
        ...molecule,
         x: x + velX,
         y: y + velY,
-        fillStyle: "black",
+        fillStyle: (molecule.duration ?? 0) < 1 ? "black" :  molecule.fillStyle,
     }
 }
 
 export const checkWallCollisions = (molecule, minMax) =>{
-    const {x, y, r, velX, velY} = molecule;
+    const {x, y, r, velX, velY, duration} = molecule;
+    let thisDuration = 10;
     const {minX, minY, maxX, maxY} = minMax;
     const newX = Math.min(Math.max(x, minX + r), maxX - r);
     const newY = Math.min(Math.max(y, minY + r), maxY - r);
     let fillStyle = "black"
     if(newX !== x) fillStyle = "blue";
-    if(newY !== y) fillStyle = "green";
+    else if(newY !== y) fillStyle = "green";
+    else thisDuration = duration - 1;
     return {
         ...molecule,
         x: newX,
@@ -25,6 +27,7 @@ export const checkWallCollisions = (molecule, minMax) =>{
         minX: x - r,
         maxX: x + r,
         fillStyle,
+        duration: thisDuration,
     }
 }
 
