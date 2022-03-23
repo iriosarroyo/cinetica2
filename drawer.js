@@ -8,12 +8,7 @@ export const drawMolecule = (molecule, ctx) =>{
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI*2);
     //ctx.stroke();
-    if(!collisioned){
-        const style = ctx.fillStyle;
-        ctx.fillStyle = "purple";
-        ctx.fill();
-        ctx.fillStyle = style
-    }else ctx.fill();
+    ctx.fill();
     ctx.moveTo(x, y);
     ctx.lineTo(endX, endY);
     ctx.stroke();

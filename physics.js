@@ -10,6 +10,8 @@ export const updateMoleculePosition = (molecule) => {
         fillStyle: (duration ?? 0) < 1 ? "black" :  fillStyle,
         lastTime: now,
         collisioned: false,
+        minX: x - r,
+        maxX: x + r
     }
 }
 
@@ -85,7 +87,7 @@ export const allCollisionCheck = (molecules) =>{
     molecules.sort((a,b) => a.minX - b.minX);
     //const result = [...molecules];
     console.log(molecules)
-    for(let i = 0; i < molecules.length - 1; i++){
+    for(let i = 0; i < molecules.length; i++){
         let offset = 1;
         while(molecules[i + offset] && molecules[i].maxX >= molecules[i + offset].minX){
             const [hasCollisioned, newMolec1, newMolec2] = checkMoleculesCollision(molecules[i], molecules[i + offset]);
