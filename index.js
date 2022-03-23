@@ -9,9 +9,15 @@ window.addEventListener("resize", () => worker.postMessage({h:window.innerHeight
 let molecules = Array(100).fill({r:15, velX:1, velY:1}).map(updateMoleculePosition)
 .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
 
-const mainLoop = () =>{
+const physicsLoop = () =>{
     molecules = molecules.map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
 }
-setInterval(mainLoop)
-window.requestAnimationFrame(()=> worker.postMessage({msg:"draw", molecules}))
+setInterval(physicsLoop)
+
+const drawLoop = () =>{
+    worker.postMessage({msg:"draw", molecules})
+    window.requestAnimationFrame(drawLoop)
+}
+
+drawLoop();
