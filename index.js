@@ -41,7 +41,8 @@ const physicsLoop = () =>{
     console.time("group")
     const fillStyles = {};
     molecules.forEach((molecule) =>{
-        fillStyles[molecule.fillStyle] = [...(fillStyles[molecule.fillStyle] ?? []), molecule]
+        if(!fillStyles[molecule.fillStyle]) fillStyles[molecule.fillStyle] = [];
+        fillStyles[molecule.fillStyle].push(molecule);
     })
     console.timeEnd("group")
     worker.postMessage({msg:"draw", molecules:fillStyles, phFPS})
