@@ -4,6 +4,7 @@ export const updateMoleculePosition = (molecule) => {
        ...molecule,
         x: x + velX,
         y: y + velY,
+        fillStyle: "black",
     }
 }
 
@@ -38,6 +39,8 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
         const {velX:vX2, velY:vY2} = molecule2;
         molecule.velX = vX2;
         molecule.velY = vY2;
+        molecule.fillStyle = "red";
+        molecule2.fillStyle = "red";
         molecule2.velX = velX;
         molecule2.velY = velY;
     }

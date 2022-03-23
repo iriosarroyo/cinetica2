@@ -9,7 +9,14 @@ const messageListener = (event) => {
     }
     if(msg === "draw"){
         ctx.clearRect(0, 0, cv.width, cv.height);
-        molecules.forEach(molecule => drawMolecule(molecule, ctx));
+        const fillStyles = new Map();
+        molecules.forEach((molecule) =>{
+            fillStyles.set(molecule.fillStyle, [...(fillStyles.get(molecule.fillStyle) ?? []), molecule])
+        })
+        fillStyles.forEach((value, idx)=>{
+            ctx.fillStyle = idx;
+            value.forEach((molecule) => drawMolecule(molecule, ctx))
+        })
     }
     if(msg === "update"){
         cv.height = h;
