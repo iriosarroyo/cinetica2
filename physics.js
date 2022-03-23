@@ -57,14 +57,6 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
         const newDY = distance * Math.sin(angle);
         const newX = x2 < x ? x2 + newDX : x2 - newDX;
         const newY = y2 < y ? y2 + newDY : y2 - newDY;
-        /* molecule2.x = newX;
-        molecule2.y = newY; 
-        molecule.velX = vX2;
-        molecule.velY = vY2;
-        molecule.fillStyle = "red";
-        molecule2.fillStyle = "red";
-        molecule2.velX = velX;
-        molecule2.velY = velY; */
         return [true,{
             ...molecule,
             velX:vX2,
