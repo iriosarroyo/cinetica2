@@ -20,7 +20,7 @@ export class Molecule{
 
     updatePosition(){
         const now = performance.now();
-        const dt = now - lastTime;
+        const dt = now - this.lastTime;
         this.lastTime = now;
         this.x = this.x + this.velX * dt;
         this.y = this.y + this.velY * dt;
@@ -55,28 +55,27 @@ export class Molecule{
     }
 
     checkCollision(molecule){
-        if(this.hasCollisioned(molecule)){
-            const {velX, velY, x, y, r} = this;
-            const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule;
-            const distance = (r + r2) * 1.01;
-            const dX = Math.abs(x - x2);
-            const dY = Math.abs(y - y2);
-            const angle = Math.atan(dY/dX);
-            const newDX = distance * Math.cos(angle);
-            const newDY = distance * Math.sin(angle);
-            this.x = x2 < x ? x2 + newDX : x2 - newDX;
-            this.y = y2 < y ? y2 + newDY : y2 - newDY;
-            
-            this.velX = vX2;
-            this.velY = vY2;
-            molecule.velX = velX;
-            molecule.velY = velY;
+        if(!this.hasCollisioned(molecule)) return false;
 
-            this.collisioned = true;
-            molecule.collisioned = true;
-            return true;
-        }
-        return false;
+        const {velX, velY, x, y, r} = this;
+        const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule;
+        const distance = (r + r2) * 1.01;
+        const dX = Math.abs(x - x2);
+        const dY = Math.abs(y - y2);
+        const angle = Math.atan(dY/dX);
+        const newDX = distance * Math.cos(angle);
+        const newDY = distance * Math.sin(angle);
+        this.x = x2 < x ? x2 + newDX : x2 - newDX;
+        this.y = y2 < y ? y2 + newDY : y2 - newDY;
+        
+        this.velX = vX2;
+        this.velY = vY2;
+        molecule.velX = velX;
+        molecule.velY = velY;
+
+        this.collisioned = true;
+        molecule.collisioned = true;
+        return true;
     }
 
     set selected(val){
