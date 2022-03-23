@@ -1,6 +1,6 @@
 export const calculateFPScreator = () =>{
     let lastTime = performance.now();
-    const fpsHistory = [];
+    let fpsHistory = [];
     return () => {
         const now = performance.now();
         const nextFps = 1000/(now - lastTime);
