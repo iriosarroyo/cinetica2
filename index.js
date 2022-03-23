@@ -2,7 +2,8 @@ import { updateMoleculePosition } from "./physics.js";
 import { checkWallCollisions } from "./physics.js";
 
 const offscreen = document.querySelector("canvas.playground").transferControlToOffscreen();
-const worker = new Worker("canvasWorker.js", {type: "module"});
+console.log("ok")
+const worker = new Worker("./canvasWorker.js", {type: "module"});
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 
 window.addEventListener("resize", () => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"}));

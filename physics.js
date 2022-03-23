@@ -28,3 +28,10 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
     const distance = dX * dX + dY * dY;
     return distance <=  (r + r2) * (r + r2);
 }
+
+export const checkMoleculesCollision = (molecule, molecule2) =>{
+    if(haveMoleculesCollisions(molecule, molecule2)){
+
+    }
+    return [];
+}
