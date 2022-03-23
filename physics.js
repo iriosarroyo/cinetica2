@@ -65,7 +65,9 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
             velY,
             fillStyle:"red",
             x:newX,
-            y:newY
+            y:newY,
+            minX: newX - r2,
+            maxX: newX + r2
         }]
     }
     return [molecule, molecule2]

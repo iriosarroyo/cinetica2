@@ -10,7 +10,8 @@ const messageListener = (event) => {
     if(msg === "start"){
         cv = canvas;
         ctx = canvas.getContext("2d");
-        ctx.font = "15px Arial"
+        ctx.font = "15px Arial";
+        ctx.strokeStyle = "lightgrey"
     }
     if(msg === "draw"){
         ctx.clearRect(0, 0, cv.width, cv.height);
