@@ -15,5 +15,5 @@ export const calculateFPScreator = (maxSize) =>{
 
 export const randomBetween = (min, max) =>{
     console.log({min,max})
-    return Math.random() * (max - min + 1) + min
+    return Math.random() * (max - min) + min
 }
