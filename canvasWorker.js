@@ -1,6 +1,4 @@
 import { drawMolecule } from "./drawer.js";
-import { updateMoleculePosition } from "./physics.js";
-import { checkWallCollisions } from "./physics.js";
 
 const startAnimation = (canvas, ctx) =>{
     const molecules = Array(100).fill({r:15, velX:1, velY:1}).map(updateMoleculePosition)
@@ -9,18 +7,20 @@ const startAnimation = (canvas, ctx) =>{
     console.log("hola")
 }
 
+const cv, ctx;
 const messageListener = (event) => {
-    const {canvas} = event.data;
-    console.log(canvas)
-    if(canvas){
-        /**
-         * @type {CanvasRenderingContext2D}
-         */
-        const ctx = canvas.getContext("2d");
-        console.log("hola")
-        startAnimation(canvas, ctx);
+    const {canvas, msg, molecules, h, w} = event.data;
+    if(msg === "start"){
+        cv = canvas;
+        ctx = canvas.getContext("2d");
+    }
+    if(msg === "draw"){
+        molecules.forEach(molecules => drawMolecule(molecule, ctx));
+    }
+    if(msg === "update"){
+        cv.height = h;
+        cv.width = w;
     }
 }
-console.log("worker")
 
 addEventListener("message", messageListener);
