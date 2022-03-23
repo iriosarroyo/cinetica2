@@ -1,10 +1,14 @@
 export const updateMoleculePosition = (molecule) => {
-    const {x = Math.random() * 1000, y = Math.random()*600, velX, velY, r, duration, fillStyle} = molecule;
+    const {x = Math.random() * 1000, y = Math.random()*600, velX, velY, 
+        r, duration, fillStyle, lastTime = performance.now()} = molecule;
+    const now = performance.now();
+    const dt = now - lastTime;
     return {
        ...molecule,
-        x: x + velX,
-        y: y + velY,
+        x: x + velX * dt,
+        y: y + velY * dt,
         fillStyle: (duration ?? 0) < 1 ? "black" :  fillStyle,
+        lastTime: now
     }
 }
 
@@ -45,7 +49,7 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
         const {velX, velY, x, y, r} = molecule;
         const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule2;
-        const distance = r + r2;
+        const distance = (r + r2)*1.01;
         const dX = Math.abs(x - x2);
         const dY = Math.abs(y - y2);
         const angle = Math.atan(dY/dX);
