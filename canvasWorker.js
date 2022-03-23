@@ -7,15 +7,15 @@ let cv, fps = calculateFPScreator(10);
 */
 let ctx;
 const messageListener = (event) => {
-    const {canvas, msg, molecules, h, w} = event.data;
+    const {canvas, msg, molecules, h, w, phFPS} = event.data;
     if(msg === "start"){
         cv = canvas;
         ctx = canvas.getContext("2d");
-        ctx.font = "15px Arial";
-        ctx.strokeStyle = 'blue';
     }
     if(msg === "draw"){
         ctx.clearRect(0, 0, cv.width, cv.height);
+        ctx.font = "15px Arial";
+        ctx.strokeStyle = 'rgb(0,128,128)';
         const fillStyles = new Map();
         molecules.forEach((molecule) =>{
             fillStyles.set(molecule.fillStyle, [...(fillStyles.get(molecule.fillStyle) ?? []), molecule])
@@ -27,6 +27,7 @@ const messageListener = (event) => {
         
         ctx.fillStyle = "black";
         ctx.fillText(fps(), cv.width - 26, 20);
+        ctx.fillText(phFPS, cv.width - 26, 40);
     }
     if(msg === "update"){
         cv.height = h;

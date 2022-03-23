@@ -10,7 +10,7 @@ export const updateMoleculePosition = (molecule) => {
 
 export const checkWallCollisions = (molecule, minMax) =>{
     const {x, y, r, velX, velY, duration} = molecule;
-    let thisDuration = 10;
+    let thisDuration = 100;
     const {minX, minY, maxX, maxY} = minMax;
     const newX = Math.min(Math.max(x, minX + r), maxX - r);
     const newY = Math.min(Math.max(y, minY + r), maxY - r);
