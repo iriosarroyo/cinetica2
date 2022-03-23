@@ -1,4 +1,5 @@
 import { randomBetween } from "./helper.js";
+const DURATION_RESET = 100;
 
 export const updateMoleculePosition = (molecule) => {
     const {
@@ -24,7 +25,7 @@ export const updateMoleculePosition = (molecule) => {
 
 export const checkWallCollisions = (molecule, minMax) =>{
     const {x, y, r, velX, velY, duration} = molecule;
-    let thisDuration = 100;
+    let thisDuration = DURATION_RESET;
     const {minX, minY, maxX, maxY} = minMax;
     const newX = Math.min(Math.max(x, minX + r), maxX - r);
     const newY = Math.min(Math.max(y, minY + r), maxY - r);
@@ -59,7 +60,7 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
         const {velX, velY, x, y, r} = molecule;
         const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule2;
-        const distance = (r + r2)*1.01;
+        const distance = (r + r2) * 1.01;
         const dX = Math.abs(x - x2);
         const dY = Math.abs(y - y2);
         const angle = Math.atan(dY/dX);
@@ -76,15 +77,15 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
             y:newY,
             minX: newX - r2,
             maxX: newX + r2,
-            duration: 100,
-            collisioned:true,
+            duration: DURATION_RESET,
+            collisioned: true,
         },{
             ...molecule2,
             velX,
             velY,
             fillStyle:"red",
-            duration: 100,
-            collisioned:true,
+            duration: DURATION_RESET,
+            collisioned: true,
         }]
     }
     return [false,molecule, molecule2]
