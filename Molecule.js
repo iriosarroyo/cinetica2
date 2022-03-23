@@ -29,23 +29,20 @@ export class Molecule{
     }
 
     checkWallCollisions(minMax){
-        const {x, y, r, velX, velY, duration} = this;
+        const {x, y, r, velX, velY} = this;
         const {minX, minY, maxX, maxY} = minMax;
         this.x = Math.min(Math.max(x, minX + r), maxX - r);
         this.y = Math.min(Math.max(y, minY + r), maxY - r);
         
-        let finalDuration = duration;
+        this.fillDuration--;
         if(this.x !== x) {
-            this.fillStyle = "blue";
+            this.fillStyle = "blue"; //Restablish fillDuration
             this.velX = -velX;
-            finalDuration = DEFAULT_DURATION;
         }
         if(this.y !== y){
-            this.fillStyle = "green"
+            this.fillStyle = "green"; //Restablish fillDuration
             this.velY = -velY;
-            finalDuration = DEFAULT_DURATION;
         };
-        this.fillDuration = Math.max(finalDuration, 0);
     }
 
     hasCollisioned(molecule){
@@ -92,7 +89,6 @@ export class Molecule{
         if(!val) return this.#collisioned = false;
         this.#collisioned = true;
         this.fillStyle = "red";
-        this.fillDuration = DEFAULT_DURATION;
     }
 
     get collisioned(){return this.#collisioned}
@@ -110,7 +106,9 @@ export class Molecule{
         return this.#x
     }
     set fillStyle(style){
-        if(!this.selected) this.#fillStyle = style;
+        if(this.selected) return;
+        this.#fillStyle = style;
+        if(style !== "black") this.fillDuration = DEFAULT_DURATION;
     }
     get fillStyle(){
         return this.#fillStyle;
