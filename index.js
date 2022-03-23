@@ -7,10 +7,10 @@ const offscreen = document.querySelector("canvas.playground").transferControlToO
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0;
-let molecules = Array(50)
+let molecules = Array(1000)
     .fill({r:15})
     .map(x =>{
-        return {...x, velX: (Math.random() - 0.5) * 2, velY: (Math.random() - 0.5) * 2}
+        return {...x, velX: (Math.random() - 0.5) * 0.1, velY: (Math.random() - 0.5) * 0.1}
     })
     .map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
