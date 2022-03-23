@@ -1,4 +1,4 @@
-import { randomBetween } from "./helper";
+import { randomBetween } from "./helper.js";
 
 export const updateMoleculePosition = (molecule) => {
     const {
@@ -7,14 +7,14 @@ export const updateMoleculePosition = (molecule) => {
         y = randomBetween(r, window.innerHeight - r), 
         velX = randomBetween(-1, 1), 
         velY = randomBetween(-1, 1), 
-        duration, fillStyle, lastTime = performance.now()} = molecule;
+        duration = 0, fillStyle = "black", lastTime = performance.now()} = molecule;
     const now = performance.now();
     const dt = now - lastTime;
     return {
        ...molecule,
         x: x + velX * dt,
         y: y + velY * dt,
-        fillStyle: (duration ?? 0) < 1 ? "black" :  fillStyle,
+        fillStyle: duration < 1 ? "black" :  fillStyle,
         lastTime: now,
         collisioned: false,
         minX: x - r,
