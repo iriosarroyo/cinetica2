@@ -30,14 +30,20 @@ const allCollisionCheck = (molecules) =>{
 }
 
 const physicsLoop = () =>{
+    console.time("first")
     molecules.forEach(molecule => molecule.updatePosition())
+    console.timeEnd("first")
+    console.time("collisions")
     allCollisionCheck(molecules);
+    console.timeEnd("collisions")
     phFPS = fps();
     if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
+    console.time("group")
     const fillStyles = {};
     molecules.forEach((molecule) =>{
         fillStyles[molecule.fillStyle] = [...(fillStyles[molecule.fillStyle] ?? []), molecule]
     })
+    console.timeEnd("group")
     worker.postMessage({msg:"draw", molecules:fillStyles, phFPS})
     //setTimeout(physicsLoop)
 };
