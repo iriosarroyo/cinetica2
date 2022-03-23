@@ -2,9 +2,7 @@ import { randomBetween } from "./helper.js";
 const DEFAULT_DURATION = 300; 
 
 export class Molecule{
-    #fillStyle
     #selected
-    #x
     #collisioned
     constructor(r, minMax){
         const {minX, minY, minVelX, minVelY, maxX, maxY, maxVelX, maxVelY} = minMax;
@@ -13,7 +11,7 @@ export class Molecule{
         this.y = randomBetween(minY + r, maxY - r);
         this.velX = randomBetween(minVelX, maxVelX);
         this.velY = randomBetween(minVelY, maxVelY);
-        this.fillStyle = "black";
+        this.setFillStyle("black");
         this.fillDuration = 0;
         this.lastTime = performance.now();
     }
@@ -24,7 +22,7 @@ export class Molecule{
         this.lastTime = now;
         this.setX(this.getX() + this.velX * dt);
         this.y = this.y + this.velY * dt;
-        this.fillStyle = this.fillDuration < 1 ? "black" : this.fillStyle;
+        this.setFillStyle(this.fillDuration < 1 ? "black" : this.fillStyle);
         this.collisioned = false;
     }
 
@@ -36,11 +34,11 @@ export class Molecule{
         
         this.fillDuration--;
         if(this.getX() !== x) {
-            this.fillStyle = "blue"; //Restablish fillDuration
+            this.setFillStyle("blue"); //Restablish fillDuration
             this.velX = -velX;
         }
         if(this.y !== y){
-            this.fillStyle = "green"; //Restablish fillDuration
+            this.setFillStyle("green"); //Restablish fillDuration
             this.velY = -velY;
         };
     }
@@ -95,14 +93,14 @@ export class Molecule{
 
     set selected(val){
         if(!val) return this.#selected = false;
-        this.#fillStyle = "purple";
+        this.fillStyle = "purple";
         this.#selected = true;
     }
 
     set collisioned(val){
         if(!val) return this.#collisioned = false;
         this.#collisioned = true;
-        this.fillStyle = "red";
+        this.setFillStyle("red");
     }
 
     get collisioned(){return this.#collisioned}
@@ -119,12 +117,9 @@ export class Molecule{
     getX(){
         return this.x
     }
-    set fillStyle(style){
+    setFillStyle(style){
         if(this.selected) return;
-        this.#fillStyle = style;
+        this.fillStyle = style;
         if(style !== "black") this.fillDuration = DEFAULT_DURATION;
-    }
-    get fillStyle(){
-        return this.#fillStyle;
     }
 }

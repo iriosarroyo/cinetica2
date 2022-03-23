@@ -45,7 +45,7 @@ const drawLoop = () =>{
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-setInterval(physicsLoop)
+setInterval(physicsLoop, 40)
 physicsLoop();
 drawLoop();
 
