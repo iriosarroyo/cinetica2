@@ -1,7 +1,8 @@
 import { calculateFPScreator } from "./helper.js";
-import { allCollisionCheck } from "./physics.js";
+//import { allCollisionCheck } from "./physics.js";
 import { updateMoleculePosition } from "./physics.js";
 import { checkWallCollisions } from "./physics.js";
+import { Molecule } from "./Molecule.js"
 
 const offscreen = document.querySelector("canvas.playground").transferControlToOffscreen();
 const dataContainer = document.querySelector("div.data");
@@ -9,21 +10,31 @@ const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0, selectedMolecule;
 let molecules = Array(10)
-    .fill({r:15})
-    .map(updateMoleculePosition)
-    .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
+    .fill(null)
+    .map(() => new Molecule(15, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
+    .map(molecule => molecule.checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
+
 const resizeCanvas = () => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
+
+const allCollisionCheck = (molecules) =>{
+    molecules.sort((a,b) => a.minX - b.minX);
+    for(let i = 0; i < molecules.length; i++){
+        let offset = 1;
+        while(molecules[i + offset] && molecules[i].maxX >= molecules[i + offset].minX){
+            molecules[i].checkCollision(molecules[i + offset]);
+            offset++;
+        }
+        molecules[i].checkWallCollisions({minX: 0, minY:0, maxX:window.innerWidth, maxY:window.innerHeight})
+    }
+}
+
 const physicsLoop = () =>{
-    molecules = molecules.map(updateMoleculePosition)
-    /* molecules = molecules
-    .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight})) */
-    molecules = allCollisionCheck(molecules);
-    /* molecules = allCollisionCheck(molecules);
-    molecules = allCollisionCheck(molecules); */
+    molecules.forEach(molecule => molecule.updatePosition())
+    allCollisionCheck(molecules);
     phFPS = fps();
     if(selectedMolecule){
         dataContainer.innerHTML = "";
-        Object.entries(molecules.find(x => x.selected)).forEach(([key, value]) =>{
+        Object.entries(selectedMolecule).forEach(([key, value]) =>{
             dataContainer.innerHTML += `<strong>${key}</strong><span>${value}</span>`
         })
     }
@@ -52,7 +63,7 @@ window.addEventListener("click", (event)=>{
         minimum = distance;
         index = idx
     });
-    molecules[index] = {...molecules[index], fillStyle:"purple", duration: 1000, selected: true}
-    selectedMolecule = true
-    console.log(molecules, molecules[index], index)
+    molecules[index].selected = true;
+    molecules[index].fillStyle = "purple";
+    selectedMolecule = molecules[index];
 })
