@@ -39,4 +39,14 @@ setInterval(physicsLoop)
 physicsLoop();
 drawLoop();
 
-window.addEventListener("click", (event)=> console.log(event))
+window.addEventListener("click", (event)=>{
+    const {clientX, clientY} = event;
+    let minimum = Infinity, index;
+    molecules.forEach(molecule, idx =>{
+        const distance = (molecule.x - clientX)**2 + (molecule.y - clientY) ** 2
+        if( distance < minimum) minimum = distance;
+        index = idx
+    });
+    molecules[index] = {...molecules[idx], fillStyle:"purple", duration: 100}
+    console.log(molecules, molecule, index)
+})
