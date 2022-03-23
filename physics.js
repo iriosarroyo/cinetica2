@@ -43,6 +43,7 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
 //this functin mutates objects !!!
 export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
+        console.log(molecule, molecule2)
         const {velX, velY, x, y, r} = molecule;
         const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule2;
         const distance = r + r2;
@@ -51,8 +52,8 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
         const angle = Math.atan(dY/dX);
         const newDX = distance * Math.cos(angle);
         const newDY = distance * Math.sin(angle);
-        const newX = x2 < x ? x - newDX : x + newDX;
-        const newY = y2 < y ? y - newDY : y + newDY;
+        const newX = x2 < x ? x2 + newDX : x2 - newDX;
+        const newY = y2 < y ? y2 + newDY : y2 - newDY;
         /* molecule2.x = newX;
         molecule2.y = newY; 
         molecule.velX = vX2;
@@ -66,15 +67,17 @@ export const checkMoleculesCollision = (molecule, molecule2) =>{
             velX:vX2,
             velY:vY2,
             fillStyle:"red",
+            x:newX,
+            y:newY,
+            minX: newX - r2,
+            maxX: newX + r2,
+            duration: 100
         },{
             ...molecule2,
             velX,
             velY,
             fillStyle:"red",
-            x:newX,
-            y:newY,
-            minX: newX - r2,
-            maxX: newX + r2
+            duration: 100
         }]
     }
     return [molecule, molecule2]
@@ -95,6 +98,7 @@ export const allCollisionCheck = (molecules) =>{
     const result = [];
     molecules.forEach((molecule, idx) =>{
         molecules.forEach((molecule2, idx2)=>{
+            if(idx === idx2) return;
             const [newMolec1, newMolec2] = checkMoleculesCollision(molecule, molecule2);
             result[idx] = newMolec1;
             result[idx2] = newMolec2;
