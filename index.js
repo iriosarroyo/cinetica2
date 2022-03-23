@@ -10,7 +10,7 @@ let phFPS = 0;
 let molecules = Array(10)
     .fill({r:15})
     .map(x =>{
-        return {...x, velX: (Math.random() - 0.5) * 0.1, velY: (Math.random() - 0.5) * 0.1}
+        return {...x, velX: (Math.random() - 0.5) * 0.3, velY: (Math.random() - 0.5) * 0.3}
     })
     .map(updateMoleculePosition)
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
@@ -38,3 +38,5 @@ window.addEventListener("resize", resizeCanvas);
 setInterval(physicsLoop)
 physicsLoop();
 drawLoop();
+
+window.addEventListener("click", (event)=> console.log(event))
