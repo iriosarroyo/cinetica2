@@ -24,7 +24,7 @@ const physicsLoop = () =>{
     /* molecules = allCollisionCheck(molecules);
     molecules = allCollisionCheck(molecules); */
     phFPS = fps();
-    setTimeout(physicsLoop)
+    //setTimeout(physicsLoop)
 };
 
 const drawLoop = () =>{
@@ -35,6 +35,6 @@ const drawLoop = () =>{
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-//setInterval(physicsLoop)
+setInterval(physicsLoop)
 physicsLoop();
 drawLoop();
