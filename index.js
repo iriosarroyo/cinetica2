@@ -14,4 +14,4 @@ const mainLoop = () =>{
     .map(molecule => checkWallCollisions(molecule, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}))
 }
 setInterval(mainLoop)
-window.requestAnimationFrame(()=> window.postMessage({msg:"draw", molecules}))
+window.requestAnimationFrame(()=> worker.postMessage({msg:"draw", molecules}))

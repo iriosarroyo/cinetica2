@@ -9,8 +9,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
-        console.log(molecules)
-        //molecules.forEach(molecule => drawMolecule(molecule, ctx));
+        molecules.forEach(molecule => drawMolecule(molecule, ctx));
     }
     if(msg === "update"){
         cv.height = h;

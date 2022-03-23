@@ -32,6 +32,11 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
 //this functin mutates objects !!!
 export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
-        
+        const {velX, velY} = molecule;
+        const {velX:vX2, velY:vY2} = molecule2;
+        molecule.velX = vX2;
+        molecule.velY = vY2;
+        molecule2.velX = velX;
+        molecule2.velY = velY;
     }
 }
