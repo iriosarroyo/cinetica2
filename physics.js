@@ -31,7 +31,7 @@ export const haveMoleculesCollisions = (molecule, molecule2) =>{
 
 export const checkMoleculesCollision = (molecule, molecule2) =>{
     if(haveMoleculesCollisions(molecule, molecule2)){
-
+        
     }
     return [];
 }
