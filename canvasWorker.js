@@ -17,8 +17,8 @@ const draw = () =>{
     
     console.timeEnd("initial")
     console.time("render")
-    moleculesByStyle.forEach((value, idx)=>{
-        ctx.fillStyle = idx;
+    Object.entries(moleculesByStyle).forEach(([key, value])=>{
+        ctx.fillStyle = key;
         value.forEach((molecule) => drawMolecule(molecule, ctx))
     })
     console.timeEnd("render")
