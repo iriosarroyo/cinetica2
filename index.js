@@ -34,12 +34,13 @@ const physicsLoop = () =>{
     allCollisionCheck(molecules);
     phFPS = fps();
     if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
+    worker.postMessage({msg:"draw", molecules, phFPS})
     //setTimeout(physicsLoop)
 };
 
 const drawLoop = () =>{
-    worker.postMessage({msg:"draw", molecules, phFPS})
-    window.requestAnimationFrame(drawLoop)
+    //worker.postMessage({msg:"draw", molecules, phFPS})
+    //window.requestAnimationFrame(drawLoop)
 };
 
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
@@ -47,7 +48,8 @@ resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 setInterval(physicsLoop)
 physicsLoop();
-drawLoop();
+//drawLoop();
+worker.postMessage({msg:"draw", molecules, phFPS, first:true})
 
 window.addEventListener("click", (event)=>{
     const {clientX, clientY} = event;
