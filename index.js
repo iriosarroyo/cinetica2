@@ -1,3 +1,4 @@
+import { calculateFPScreator } from "./helper.js";
 import { allCollisionCheck } from "./physics.js";
 import { updateMoleculePosition } from "./physics.js";
 import { checkWallCollisions } from "./physics.js";
