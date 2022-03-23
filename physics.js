@@ -17,6 +17,14 @@ export const checkWallCollisions = (molecule, minMax) =>{
         x: newX,
         y: newY,
         velX: newX === x ? velX : -velX,
-        velY: velY === y ? velY : -velY,
     }
+}
+
+export const haveMoleculesCollisions = (molecule, molecule2) =>{
+    const {x, y, r} = molecule;
+    const {x:x2, y:y2, r:r2} = molecule2;
+    const dX = x - x2;
+    const dY = y - y2;
+    const distance = dX * dX + dY * dY;
+    return distance <=  (r + r2) * (r + r2);
 }

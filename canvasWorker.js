@@ -1,4 +1,4 @@
-import { drawMolecule } from "./drawer.js";
+//import { drawMolecule } from "./drawer.js";
 
 const cv, ctx;
 const messageListener = (event) => {
@@ -9,7 +9,8 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
-        molecules.forEach(molecule => drawMolecule(molecule, ctx));
+        console.log(molecules)
+        //molecules.forEach(molecule => drawMolecule(molecule, ctx));
     }
     if(msg === "update"){
         cv.height = h;
