@@ -11,7 +11,7 @@
       margin:0;
       height: 100vh;
     }
-    .data, .fps, .timer{
+    .data, .fps, .timer, .inputs{
       position: fixed;
       background-color: #ffffff48;
       display: grid;
@@ -32,8 +32,7 @@
       top:0;
       left: 0;
     }
-    input{
-      position: fixed;
+    .inputs{
       left: 0;
       bottom: 0;
     }
@@ -49,6 +48,9 @@
     <strong>Index</strong><span class="indexFps"></span>
   </div>
   <div class="timer"></div>
-  <input type="number" class="moleculesNum" min="1" max="10000" value="1000">
+  <div class="inputs">
+    <span>#</span><input type="number" class="moleculesNum" min="1" max="10000" value="1000">
+    <span>r</span><input type="number" class="moleculesR" min="1" max="100" value="2">
+  </div>
 </body>
 </html>

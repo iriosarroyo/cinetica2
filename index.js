@@ -10,6 +10,7 @@ const fpsCanvas = document.querySelector(".canvasFps");
 const fpsPhysics = document.querySelector(".physicsFps");
 const fpsIndex = document.querySelector(".indexFps");
 const moleculesNum = document.querySelector(".moleculesNum");
+const moleculesR = document.querySelector(".moleculesR");
 const timerContainer = document.querySelector(".timer");
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
@@ -99,8 +100,15 @@ worker.addEventListener("message", (e) =>{
     }
 })
 
+let r = 2;
 moleculesNum.addEventListener("change", (e) =>{
     while(parseInt(e.target.value) > molecules.length)
-        molecules.push(new Molecule(2, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
+        molecules.push(new Molecule(r, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
     molecules.length = parseInt(e.target.value);
+})
+
+moleculesNum.addEventListener("change", (e) =>{
+    const newR = parseInt(e.target.value);
+    r = newR;
+    molecules.forEach(molecule => molecule.r = newR)
 })
