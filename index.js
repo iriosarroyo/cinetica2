@@ -8,10 +8,12 @@ const offscreen = document.querySelector("canvas.playground").transferControlToO
 const dataContainer = document.querySelector("div.data");
 const fpsCanvas = document.querySelector(".canvasFps");
 const fpsPhysics = document.querySelector(".physicsFps");
+const fpsIndex = document.querySelector(".indexFps");
 const moleculesNum = document.querySelector(".moleculesNum");
 const timerContainer = document.querySelector(".timer");
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
+const idxFPS = calculateFPScreator(10);
 let phFPS = 0, selectedMolecule;
 let molecules = Array(1000)
     .fill(null)
@@ -57,6 +59,7 @@ const physicsLoop = () =>{
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
     fpsPhysics.textContent = phFPS;
+    fpsIndex.textContent = idxFPS();
     worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first:first === true})
     window.requestAnimationFrame(drawLoop)
 };
