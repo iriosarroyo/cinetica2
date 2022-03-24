@@ -1,4 +1,5 @@
 import { randomBetween } from "./helper.js";
+import { Vector } from "./Vector.js";
 const DEFAULT_DURATION = 100; 
 
 export class Molecule{
@@ -7,10 +8,8 @@ export class Molecule{
     constructor(r, minMax){
         const {minX, minY, minVelX, minVelY, maxX, maxY, maxVelX, maxVelY} = minMax;
         this.r = r;
-        this.setX(randomBetween(minX + r, maxX - r));
-        this.y = randomBetween(minY + r, maxY - r);
-        this.velX = randomBetween(minVelX, maxVelX);
-        this.velY = randomBetween(minVelY, maxVelY);
+        this.setPos(new Vector(randomBetween(minX + r, maxX - r), randomBetween(minY + r, maxY - r)))
+        this.setVel(randomBetween(minVelX, maxVelX), randomBetween(minVelY, maxVelY));
         this.setFillStyle("black");
         this.fillDuration = 0;
         this.lastTime = performance.now();
@@ -20,64 +19,51 @@ export class Molecule{
         const now = performance.now();
         const dt = now - this.lastTime;
         this.lastTime = now;
-        this.setX(this.getX() + this.velX * dt);
-        this.y = this.y + this.velY * dt;
+        this.setPos(Vector.add(this.pos, Vector.mult(this.vel, dt)));
         this.setFillStyle(this.fillDuration < 1 ? "black" : this.fillStyle);
         this.collisioned = false;
     }
 
     checkWallCollisions(minMax){
-        const {x, y, r, velX, velY} = this;
+        const {pos, r, vel} = this;
+        const {x, y} = pos;
+        const {x:velX, y:velY} = vel;
         const {minX, minY, maxX, maxY} = minMax;
-        this.setX(Math.min(Math.max(x, minX + r), maxX - r));
-        this.y = Math.min(Math.max(y, minY + r), maxY - r);
+        this.setPos(new Vector(Math.min(Math.max(x, minX + r), maxX - r),
+                               Math.min(Math.max(y, minY + r), maxY - r)));
         
         this.fillDuration = Math.max(0, this.fillDuration - 1);
-        if(this.getX() !== x) {
-            this.setFillStyle("blue"); //Restablish fillDuration
-            this.velX = -velX;
-        }
-        if(this.y !== y){
-            this.setFillStyle("green"); //Restablish fillDuration
-            this.velY = -velY;
-        };
+        if(x - minX - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(1, 0)));
+        if(maxX - r - x < 0) this.setVel(Vector.reflect(this.vel, new Vector(-1, 0)));
+        if(y - minY - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, -1)));
+        if(maxY - r - y  < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, 1)));
     }
 
     hasCollisioned(molecule){
-        const {x, y, r} = this;
-        const {x:x2, y:y2, r:r2} = molecule;
-        const dX = x - x2;
-        const dY = y - y2;
-        const distance = dX * dX + dY * dY;
+        const {pos, r} = this;
+        const {pos:pos2, r:r2} = molecule;
+        const dPos = Vector.sub(pos, pos2);
+        const distance = dPos.squaredModule();
         return distance <=  (r + r2) * (r + r2);
     }
 
     checkCollision(molecule){
         if(!this.hasCollisioned(molecule)) return false;
 
-        const {velX, velY, x, y, r} = this;
-        const {velX:vX2, velY:vY2, x:x2, y:y2, r:r2} = molecule;
+        const {pos, vel, r} = this;
+        const {pos:pos2, vel:vel2, r:r2} = molecule;
         const distance = (r + r2) * 1.01;
-        const dX = Math.abs(x - x2);
-        const dY = Math.abs(y - y2);
-        const angle = Math.atan(dY/dX);
-        const newDX = distance * Math.cos(angle);
-        const newDY = distance * Math.sin(angle);
-        const xToAdd = x2 < x ? newDX : -newDX;
-        const yToAdd = y2 < y ? newDY : -newDY;
-        if(Math.random() < 5){
-            this.setX(x2 + xToAdd);
-            this.y = y2 + yToAdd;
+        const dPos = Vector.sub(pos, pos2);
+        const angle = dPos.angle();
+        const newDPos = Vector.createWithAngle(angle, distance);
+        if(Math.random() < 0.25){
+            this.setPos(Vector.add(pos2, newDPos));
         }else{
-            molecule.setX(x - xToAdd);
-            molecule.y = y - yToAdd;
+            molecule.setPos(Vector.sub(pos, newDPos));
         }
         
-        
-        this.velX = vX2;
-        this.velY = vY2;
-        molecule.velX = velX;
-        molecule.velY = velY;
+        this.setVel(vel2);
+        molecule.setVel(vel);
 
         this.collisioned = true;
         molecule.collisioned = true;
@@ -87,10 +73,10 @@ export class Molecule{
     showInfo(div){
         div.innerHTML = `
         <strong>r</strong><span>${this.r}</span>
-        <strong>x</strong><span>${Math.round(this.getX())}</span>
-        <strong>y</strong><span>${Math.round(this.y)}</span>
-        <strong>vel. x</strong><span>${Math.round(this.velX * 100) * 0.01}</span>
-        <strong>vel. y</strong><span>${Math.round(this.velY * 100) * 0.01}</span>
+        <strong>x</strong><span>${Math.round(this.pos.x)}</span>
+        <strong>y</strong><span>${Math.round(this.pos.y)}</span>
+        <strong>vel. x</strong><span>${Math.round(this.vel.x * 100) * 0.01}</span>
+        <strong>vel. y</strong><span>${Math.round(this.vel.y * 100) * 0.01}</span>
         <strong>min. x</strong><span>${Math.round(this.minX)}</span>
         <strong>max. x</strong><span>${Math.round(this.maxX)}</span>
         <strong>collisioned</strong><span>${this.collisioned}</span>
@@ -102,19 +88,17 @@ export class Molecule{
     }
 
     getLineOfDirection(){
-        const {x, y, r, velX, velY} = this;
-        const angle = Math.atan(Math.abs(velY/velX))
-        const distX = 1.5 * r * Math.cos(angle);
-        const distY = 1.5 * r * Math.sin(angle);
-        const endX = Math.round(velX < 0 ? x - distX : x + distX);
-        const endY = Math.round(velY < 0 ? y - distY : y + distY);
-        return {endX, endY};
+        const {pos, r, vel} = this;
+        const angle = vel.angle();
+        const dist = Vector.createWithAngle(angle, 1.5 * r);
+        const end = Vector.sum(pos, dist);
+        return {endX: end.x, endY: end.y};
     }
 
     getDataToSend(){
-        const {x, y, r} = this;
+        const {pos, r} = this;
         const {endX, endY} = this.getLineOfDirection();
-        return {x:Math.round(x), y:Math.round(y), r:Math.round(r), endX, endY}
+        return {x:Math.round(pos.x), y:Math.round(pos.y), r:Math.round(r), endX, endY}
     }
 
     set selected(val){
@@ -135,14 +119,17 @@ export class Molecule{
         return this.#selected;
     }
 
-    setX(val){
-        this.x = val;
-        this.minX = this.x - this.r;
-        this.maxX = this.x + this.r;
+    setPos(val){
+        this.pos = val;
+        const {x} = val;
+        this.minX = x - this.r;
+        this.maxX = x + this.r;
     }
-    getX(){
-        return this.x
+    
+    setVel(val){
+        this.vel = val;
     }
+
     setFillStyle(style){
         if(this.selected) return;
         this.fillStyle = style;
