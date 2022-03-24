@@ -10,23 +10,24 @@ let cv, fps = calculateFPScreator(10, true), moleculesByStyle, physicsFPS;
 let ctx;
 
 const draw = () =>{
+    const send = Math.random() < 0.017;
     startTimer("restart");
     ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.strokeStyle = 'rgb(0,128,128)';
-    endTimer("restart");
+    endTimer("restart", send);
     startTimer("render");
     for(let i = 0; i< moleculesByStyle.length; i++){
         const [fillStyle, moleculesInGroup] = moleculesByStyle[i];
         ctx.fillStyle = fillStyle;
         for(let j = 0; j<moleculesInGroup.length; j++) drawMolecule(moleculesInGroup[j], ctx);
     }
-    endTimer("render");
+    endTimer("render", send);
     startTimer("fps");
     fps();
-    endTimer("fps");
+    endTimer("fps", send);
     startTimer("request");
     requestAnimationFrame(draw)
-    endTimer("request");
+    endTimer("request", send);
 }
 
 const messageListener = (event) => {
