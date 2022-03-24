@@ -63,8 +63,16 @@ export class Molecule{
         const angle = Math.atan(dY/dX);
         const newDX = distance * Math.cos(angle);
         const newDY = distance * Math.sin(angle);
-        this.setX(x2 < x ? x2 + newDX : x2 - newDX);
-        this.y = y2 < y ? y2 + newDY : y2 - newDY;
+        const xToAdd = x2 < x ? newDX : -newDX;
+        const yToAdd = y2 < y ? newDY : -newDY;
+        if(Math.random() < 0.5){
+            this.setX(x2 + xToAdd);
+            this.y = y2 + yToAdd;
+        }else{
+            molecule.setX(x - xToAdd);
+            molecule.y = y - yToAdd;
+        }
+        
         
         this.velX = vX2;
         this.velY = vY2;
