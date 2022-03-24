@@ -89,7 +89,7 @@ window.addEventListener("resize", ()=>{
 });
 physicsWorker.postMessage({msg:"start", data:{w:innerWidth, h:innerHeight}});
 physicsWorker.addEventListener("message", (e) =>{
-    const {msg, data} = e;
+    const {msg, data} = e.data;
     if(msg === "molecules") molecules = data;
     else if (msg === "fps") phFPS = data;
 });
