@@ -36,7 +36,7 @@ const groupByFillStyle = (actualMolecules) =>{
     const fillStyles = {};
     actualMolecules.forEach((molecule) =>{
         if(!fillStyles[molecule.fillStyle]) fillStyles[molecule.fillStyle] = [];
-        fillStyles[molecule.fillStyle].push(molecule.getDataToSend());
+        fillStyles[molecule.fillStyle].push(molecule);
     })
     return Object.entries(fillStyles);
 }
