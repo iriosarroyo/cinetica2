@@ -41,7 +41,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
-        moleculesByStyle = molecules;
+        moleculesByStyle = JSON.parse(molecules);
         //physicsFPS = phFPS;
         if(first) {
         }

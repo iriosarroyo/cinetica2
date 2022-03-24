@@ -75,9 +75,9 @@ const physicsLoop = () =>{
     const numOfMoleculesPerWorker = molecules.length / workers.length;
     console.time("group")
     for(let i = 0; i < workers.length; i++) 
-    moleculeByWorker[i] = groupByFillStyle(
+    moleculeByWorker[i] = JSON.stringify(groupByFillStyle(
         molecules.slice(Math.round(i * numOfMoleculesPerWorker), Math.round((i + 1) * numOfMoleculesPerWorker))
-        );
+        ));
         
     console.timeEnd("group")
     //setTimeout(physicsLoop)
