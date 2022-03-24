@@ -107,7 +107,7 @@ moleculesNum.addEventListener("change", (e) =>{
     molecules.length = parseInt(e.target.value);
 })
 
-moleculesNum.addEventListener("change", (e) =>{
+moleculesR.addEventListener("change", (e) =>{
     const newR = parseInt(e.target.value);
     r = newR;
     molecules.forEach(molecule => molecule.r = newR)

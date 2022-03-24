@@ -98,15 +98,15 @@ export class Molecule{
         const angle = Math.atan(Math.abs(velY/velX))
         const distX = 1.5 * r * Math.cos(angle);
         const distY = 1.5 * r * Math.sin(angle);
-        const endX = velX < 0 ? x - distX : x + distX;
-        const endY = velY < 0 ? y - distY : y + distY;
+        const endX = Math.round(velX < 0 ? x - distX : x + distX);
+        const endY = Math.round(velY < 0 ? y - distY : y + distY);
         return {endX, endY};
     }
 
     getDataToSend(){
         const {x, y, r} = this;
         const {endX, endY} = this.getLineOfDirection();
-        return {x, y, r, endX, endY}
+        return {x:Math.round(x), y:Math.round(y), r:Math.round(r), endX, endY}
     }
 
     set selected(val){
