@@ -143,7 +143,7 @@ moleculesNum.addEventListener("change", (e) =>{
         molecules.push(new Molecule(r, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
     molecules.sort(()=>Math.random() - 0.5);
     molecules.length = parseInt(e.target.value); */
-    startMolecules(parseInt(molecules.length));
+    startMolecules(parseInt(e.target.value));
 })
 
 moleculesR.addEventListener("change", (e) =>{
