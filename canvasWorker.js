@@ -35,7 +35,7 @@ const messageListener = (event) => {
     const {canvas, msg, molecules, h, w, first} = event.data;
     if(msg === "start"){
         cv = canvas;
-        ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d", {alfa:0});
     }
     if(msg === "draw"){
         moleculesByStyle = molecules;
