@@ -84,7 +84,8 @@ const drawLoop = (first) =>{
     velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module() ** 2 * val.m, 0) / molecules.length * 100) / 100;
     fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
-    const numOfMoleculesPerWorker = molecules.length / workers.length; 
+    const numOfMoleculesPerWorker = molecules.length / workers.length;
+    console.time(); 
     workers.forEach((worker, idx) => {
         worker.postMessage({
             msg:"draw", 
@@ -93,6 +94,7 @@ const drawLoop = (first) =>{
             ), 
             first:first === true})
     })
+    console.timeEnd();
     window.requestAnimationFrame(drawLoop)
 };
 
