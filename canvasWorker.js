@@ -32,7 +32,6 @@ const messageListener = (event) => {
     if(msg === "draw"){
         moleculesByStyle = molecules;
         physicsFPS = phFPS;
-        console.log(first)
         if(first) draw();
     }
     if(msg === "update"){

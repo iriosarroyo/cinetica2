@@ -52,7 +52,7 @@ const physicsLoop = () =>{
 
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
-    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first, phFPS})
+    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first:first === true, phFPS})
     window.requestAnimationFrame(drawLoop)
 };
 
