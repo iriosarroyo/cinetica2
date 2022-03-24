@@ -93,6 +93,22 @@ export class Molecule{
         //<strong>last update</strong><span>${Math.round((this.lastTime) * 100) * 0.01}</span>
     }
 
+    getLineOfDirection(){
+        const {x, y, r, velX, velY} = this;
+        const angle = Math.atan(Math.abs(velY/velX))
+        const distX = 1.5 * r * Math.cos(angle);
+        const distY = 1.5 * r * Math.sin(angle);
+        const endX = velX < 0 ? x - distX : x + distX;
+        const endY = velY < 0 ? y - distY : y + distY;
+        return {endX, endY};
+    }
+
+    getDataToSend(){
+        const {x, y, r} = this;
+        const {endX, endY} = this.getLineOfDirection();
+        return {x, y, r, endX, endY}
+    }
+
     set selected(val){
         if(!val) return this.#selected = false;
         this.fillStyle = "purple";

@@ -33,7 +33,7 @@ const groupByFillStyle = (actualMolecules) =>{
     const fillStyles = {};
     actualMolecules.forEach((molecule) =>{
         if(!fillStyles[molecule.fillStyle]) fillStyles[molecule.fillStyle] = [];
-        fillStyles[molecule.fillStyle].push(molecule);
+        fillStyles[molecule.fillStyle].push(molecule.getDataToSend());
     })
     return Object.entries(fillStyles);
 }
@@ -50,21 +50,19 @@ const physicsLoop = () =>{
 
 
 
-const drawLoop = () =>{
+const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
-    //window.requestAnimationFrame(drawLoop)
-    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), phFPS})
+    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first, phFPS})
+    window.requestAnimationFrame(drawLoop)
 };
 
-setInterval(drawLoop, 100)
 
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 setInterval(physicsLoop)
 physicsLoop();
-//drawLoop();
-worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), phFPS, first:true})
+drawLoop(true);
 
 window.addEventListener("click", (event)=>{
     const {clientX, clientY} = event;
