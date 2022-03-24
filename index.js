@@ -16,7 +16,7 @@ const fps = calculateFPScreator(1000);
 const idxFPS = calculateFPScreator(10);
 let phFPS = 0, selectedMolecule;
 let r = 10;
-let molecules = [], workers = []; 
+let molecules = [], workers = [], moleculeByWorker = []; 
 
 const startMolecules = (number) =>{
     molecules = Array(number)
@@ -72,6 +72,11 @@ const physicsLoop = () =>{
     allCollisionCheck(molecules);
     phFPS = fps();
     if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
+    const numOfMoleculesPerWorker = molecules.length / workers.length;
+    for(let i = 0; i < workers.length; i++) 
+        moleculeByWorker[i] = groupByFillStyle(
+            molecules.slice(Math.round(idx * numOfMoleculesPerWorker), Math.round((idx + 1) * numOfMoleculesPerWorker))
+        );
     
     //setTimeout(physicsLoop)
 };
@@ -84,15 +89,12 @@ const drawLoop = (first) =>{
     velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module() ** 2 * val.m, 0) / molecules.length * 100) / 100;
     fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
-    const numOfMoleculesPerWorker = molecules.length / workers.length;
     console.time(); 
     workers.forEach((worker, idx) => {
         worker.postMessage({
             msg:"draw", 
-            molecules:groupByFillStyle(
-                molecules.slice(Math.round(idx * numOfMoleculesPerWorker), Math.round((idx + 1) * numOfMoleculesPerWorker))
-            ), 
-            first:first === true})
+            molecules: moleculeByWorker[idx],
+        })
     })
     console.timeEnd();
     window.requestAnimationFrame(drawLoop)
