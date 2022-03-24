@@ -29,7 +29,7 @@ const draw = () =>{
     endTimer("fps", send);
     
     startTimer("request");
-    requestAnimationFrame(draw)
+    //requestAnimationFrame(draw)
     endTimer("request", send);
     counter++;
 }
@@ -44,9 +44,8 @@ const messageListener = (event) => {
         moleculesByStyle = molecules;
         //physicsFPS = phFPS;
         if(first) {
-            draw();
-            console.log("called draw")
         }
+        draw();
     }
     if(msg === "update"){
         cv.height = h;
