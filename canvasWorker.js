@@ -17,6 +17,7 @@ const draw = () =>{
         ctx.fillStyle = fillStyle;
         for(let j = 0; j<moleculesInGroup.length; j++) drawMolecule(moleculesInGroup[j], ctx);
     }
+    fps();
    /*  ctx.fillStyle = "black";
     ctx.fillText(fps(), cv.width - 26, 20);
     ctx.fillText(physicsFPS, cv.width - 26, 40); */
