@@ -12,7 +12,6 @@ const velMedia = document.querySelector(".velMedia");
 const moleculesNum = document.querySelector(".moleculesNum");
 const moleculesR = document.querySelector(".moleculesR");
 const timerContainer = document.querySelector(".timer");
-const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 const idxFPS = calculateFPScreator(10);
 let phFPS = 0, selectedMolecule;
@@ -20,7 +19,7 @@ let r = 10;
 let molecules = [], workers = []; 
 
 const startMolecules = (number) =>{
-    Array(number)
+    molecules = Array(number)
         .fill(null)
         .map(() => new Molecule(r, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
 
@@ -30,14 +29,19 @@ const startMolecules = (number) =>{
 const sendResize = (worker) => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
 const resizeCanvas = () => workers.forEach(sendResize);
 
-const workerListener = (e) =>{
+const workerListener = (e, id) =>{
     const {msg, data} = e.data;
-    if(msg === "fps") fpsCanvas.textContent = data;
+    if(msg === "fps") {
+        let thisFPScontainer = document.querySelector(`.fps-${id}`);
+        if(!thisFPScontainer){
+            document.querySelector(".fps").innerHTML += `<strong>${id}-FPS</strong><span class='fps-${id}'>${data}</span>`
+        }else thisFPScontainer.textContent = data;
+    }
     else if(msg === "timer"){
         const {time, name} = data;
-        let thisTimer = timerContainer.querySelector(`.timer-${name}`);
+        let thisTimer = timerContainer.querySelector(`.timer-${id}-${name}`);
         if(!thisTimer){
-            timerContainer.innerHTML += `<strong>${name}</strong><span class='timer-${name}'>${time}</span>`
+            timerContainer.innerHTML += `<strong>${id}-${name}</strong><span class='timer-${id}-${name}'>${time}</span>`
         }else thisTimer.textContent = time;
     }
 };
@@ -85,7 +89,7 @@ const drawLoop = (first) =>{
         worker.postMessage({
             msg:"draw", 
             molecules:groupByFillStyle(
-                molecules.slice(Math.round(idx * numOfMoleculesPerWorkerh), Math.round((idx + 1) * numOfMoleculesPerWorkerh))
+                molecules.slice(Math.round(idx * numOfMoleculesPerWorker), Math.round((idx + 1) * numOfMoleculesPerWorker))
             ), 
             first:first === true})
     })
@@ -100,9 +104,11 @@ const startWorkers = () =>{
         document.body.append(canvas);
         const offscreen = canvas.transferControlToOffscreen();
         thisWorkers[i].postMessage({
-            canvas: offscreen, 
+            canvas: offscreen,
+            id: i, 
             msg: "start"
         }, [offscreen]);
+        worker.addEventListener("message", (event) => workerListener(event, i))
     }
     return thisWorkers;
 }
@@ -130,14 +136,14 @@ window.addEventListener("click", (event)=>{
     selectedMolecule = molecules[index];
 })
 
-worker.addEventListener("message", )
+
 
 moleculesNum.addEventListener("change", (e) =>{
     /* while(parseInt(e.target.value) > molecules.length)
         molecules.push(new Molecule(r, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
     molecules.sort(()=>Math.random() - 0.5);
     molecules.length = parseInt(e.target.value); */
-    startMolecules(molecules.length);
+    startMolecules(parseInt(molecules.length));
 })
 
 moleculesR.addEventListener("change", (e) =>{

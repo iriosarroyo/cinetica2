@@ -1,4 +1,4 @@
-export const calculateFPScreator = (maxSize, send) =>{
+export const calculateFPScreator = (maxSize, send, id) =>{
     let lastTime = performance.now();
     let fpsHistory = [];
     let count = 0;
@@ -9,7 +9,7 @@ export const calculateFPScreator = (maxSize, send) =>{
         fpsHistory.unshift(nextFps);
         lastTime = now;
         const averageFPS = Math.round(fpsHistory.reduce((acum, val) => acum + val) / fpsHistory.length);
-        if(send) postMessage({msg:"fps", data:averageFPS});
+        if(send) postMessage({msg:"fps", data:averageFPS, id});
         return averageFPS;
     }
 }
@@ -23,9 +23,9 @@ const timer = () =>{
     const start = (name = "default") =>{
         timers[name] = performance.now();
     }
-    const end = (name = "default", send = true) =>{
+    const end = (name = "default", send = true, id) =>{
         const time = Math.round((performance.now() - timers[name]) * 1000) / 1000;
-        if(send) postMessage({msg:"timer", data: {time, name}});
+        if(send) postMessage({msg:"timer", data: {time, name}, id});
         return time;
     }
     return [start, end];
