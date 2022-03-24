@@ -11,10 +11,9 @@
       margin:0;
       height: 100vh;
     }
-    .data, .fps{
+    .data, .fps, .timer{
       position: fixed;
       background-color: #ffffff48;
-      right:0;
       display: grid;
       grid-template-columns: max-content max-content;
       column-gap: 5px;
@@ -23,9 +22,15 @@
     }
     .data{
       bottom: 0;
+      right: 0;
     }
     .fps{
       top:0;
+      right: 0;
+    }
+    .timer{
+      top:0;
+      left: 0;
     }
     input{
       position: fixed;
@@ -39,6 +44,10 @@
   <canvas class="playground"></canvas>
   <div class="data"></div>
   <div class="fps">
+    <strong>Canvas</strong><span class="canvasFps"></span>
+    <strong>Physics</strong><span class="physicsFps"></span>
+  </div>
+  <div class="timer">
     <strong>Canvas</strong><span class="canvasFps"></span>
     <strong>Physics</strong><span class="physicsFps"></span>
   </div>

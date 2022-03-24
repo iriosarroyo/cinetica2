@@ -9,6 +9,7 @@ const dataContainer = document.querySelector("div.data");
 const fpsCanvas = document.querySelector(".canvasFps");
 const fpsPhysics = document.querySelector(".physicsFps");
 const moleculesNum = document.querySelector(".moleculesNum");
+const timerContainer = document.querySelector(".timer");
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0, selectedMolecule;
@@ -84,7 +85,15 @@ window.addEventListener("click", (event)=>{
 })
 
 worker.addEventListener("message", (e) =>{
-    fpsCanvas.textContent = e.data;
+    const {msg, data} = e.data;
+    if(msg === "fps") fpsCanvas.textContent = e.data;
+    else if(msg === "timer"){
+        const {time, name} = data;
+        let thisTimer = timerContainer.querySelector(`.${name}`);
+        if(!thisTimer){
+            timerContainer.append(`<strong>${name}</strong><span class='${name}'>${time}</span>`)
+        }else this.Timer.textContent = time;
+    }
 })
 
 moleculesNum.addEventListener("change", (e) =>{

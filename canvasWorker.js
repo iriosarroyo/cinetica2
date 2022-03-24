@@ -1,4 +1,6 @@
 import { drawMolecule } from "./drawer.js";
+import { endTimer } from "./helper.js";
+import { startTimer } from "./helper.js";
 import { calculateFPScreator } from "./helper.js";
 
 let cv, fps = calculateFPScreator(10, true), moleculesByStyle, physicsFPS;
@@ -8,20 +10,23 @@ let cv, fps = calculateFPScreator(10, true), moleculesByStyle, physicsFPS;
 let ctx;
 
 const draw = () =>{
+    startTimer("restart");
     ctx.clearRect(0, 0, cv.width, cv.height);
-   /*  ctx.font = "15px Arial"; */
     ctx.strokeStyle = 'rgb(0,128,128)';
-    // For loop for optimizing
+    endTimer("restart");
+    startTimer("render");
     for(let i = 0; i< moleculesByStyle.length; i++){
         const [fillStyle, moleculesInGroup] = moleculesByStyle[i];
         ctx.fillStyle = fillStyle;
         for(let j = 0; j<moleculesInGroup.length; j++) drawMolecule(moleculesInGroup[j], ctx);
     }
+    endTimer("render");
+    startTimer("fps");
     fps();
-   /*  ctx.fillStyle = "black";
-    ctx.fillText(fps(), cv.width - 26, 20);
-    ctx.fillText(physicsFPS, cv.width - 26, 40); */
+    endTimer("fps");
+    startTimer("request");
     requestAnimationFrame(draw)
+    endTimer("request");
 }
 
 const messageListener = (event) => {
