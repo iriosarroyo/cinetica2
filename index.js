@@ -83,7 +83,7 @@ const startWorkers = () =>{
 workers = startWorkers();
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-const physicsWorker = new Worker("physicsWorker.js", {type: "module"});
+const physicsWorker = new Worker("./physicsWorker.js", {type: "module"});
 physicsWorker.addEventListener("message", (e) =>{
     const {msg, data} = e;
     if(msg === "molecules") molecules = data;
