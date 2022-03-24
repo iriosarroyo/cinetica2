@@ -29,7 +29,7 @@ export class Molecule{
         const dt = now - this.lastTime;
         this.lastTime = now;
         this.setPos(Vector.add(this.pos, Vector.mult(this.vel, dt)));
-        this.setFillStyle(this.fillDuration < 1 ? "black" : this.fillStyle);
+        if(this.fillDuration < 1) this.setFillStyle("black");
         this.collisioned = false;
     }
 
@@ -111,7 +111,7 @@ export class Molecule{
     getLineOfDirection(){
         const {pos, r, vel} = this;
         const angle = vel.angle();
-        const dist = Vector.createWithAngle(angle, r + this.vel.module() * 50);
+        const dist = Vector.createWithAngle(angle, r + this.vel.module() * 40);
         const end = Vector.add(pos, dist);
         return {endX: end.x, endY: end.y};
     }
@@ -156,8 +156,8 @@ export class Molecule{
     }
 
     setFillStyle(style){
-        //if(this.selected) return;
+        if(this.selected && this.fillDuration > 0) return;
         this.fillStyle = style;
-        //if(style !== "black") this.fillDuration = DEFAULT_DURATION;
+        if(style !== "black") this.fillDuration = DEFAULT_DURATION;
     }
 }
