@@ -29,25 +29,25 @@ const allCollisionCheck = (molecules) =>{
     }
 }
 
-const physicsLoop = () =>{
-    console.time("first")
-    molecules.forEach(molecule => molecule.updatePosition())
-    console.timeEnd("first")
-    console.time("collisions")
-    allCollisionCheck(molecules);
-    console.timeEnd("collisions")
-    phFPS = fps();
-    if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
-    console.time("group")
+const groupByFillStyle = (actualMolecules) =>{
     const fillStyles = {};
-    molecules.forEach((molecule) =>{
+    actualMolecules.forEach((molecule) =>{
         if(!fillStyles[molecule.fillStyle]) fillStyles[molecule.fillStyle] = [];
         fillStyles[molecule.fillStyle].push(molecule);
     })
-    console.timeEnd("group")
-    worker.postMessage({msg:"draw", molecules:fillStyles, phFPS})
+    return Object.entries(fillStyles);
+}
+
+const physicsLoop = () =>{
+    molecules.forEach(molecule => molecule.updatePosition())
+    allCollisionCheck(molecules);
+    phFPS = fps();
+    if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
+    
+    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), phFPS})
     //setTimeout(physicsLoop)
 };
+
 
 const drawLoop = () =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
@@ -60,11 +60,7 @@ window.addEventListener("resize", resizeCanvas);
 setInterval(physicsLoop)
 physicsLoop();
 //drawLoop();
-const fillStyles = {};
-molecules.forEach((molecule) =>{
-    fillStyles[molecule.fillStyle] = [...(fillStyles[molecule.fillStyle] ?? []), molecule]
-})
-worker.postMessage({msg:"draw", molecules:fillStyles, phFPS, first:true})
+worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), phFPS, first:true})
 
 window.addEventListener("click", (event)=>{
     const {clientX, clientY} = event;
