@@ -1,5 +1,5 @@
 import { randomBetween } from "./helper.js";
-const DEFAULT_DURATION = 300; 
+const DEFAULT_DURATION = 100; 
 
 export class Molecule{
     #selected
@@ -65,7 +65,7 @@ export class Molecule{
         const newDY = distance * Math.sin(angle);
         const xToAdd = x2 < x ? newDX : -newDX;
         const yToAdd = y2 < y ? newDY : -newDY;
-        if(Math.random() < 0.5){
+        if(Math.random() < 0.25){
             this.setX(x2 + xToAdd);
             this.y = y2 + yToAdd;
         }else{
