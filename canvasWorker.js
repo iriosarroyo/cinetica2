@@ -7,10 +7,10 @@ let cv, fps = calculateFPScreator(10, true), moleculesByStyle, physicsFPS;
 /**
  * @type {CanvasRenderingContext2D}
 */
-let ctx;
+let ctx, counter = 0;
 
 const draw = () =>{
-    const send = Math.random() < 0.017;
+    const send = counter % 60 === 0;
     startTimer("restart");
     ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.strokeStyle = 'rgb(0,128,128)';
@@ -28,6 +28,7 @@ const draw = () =>{
     startTimer("request");
     requestAnimationFrame(draw)
     endTimer("request", send);
+    counter++;
 }
 
 const messageListener = (event) => {

@@ -92,7 +92,7 @@ worker.addEventListener("message", (e) =>{
         let thisTimer = timerContainer.querySelector(`.timer-${name}`);
         if(!thisTimer){
             timerContainer.innerHTML += `<strong>${name}</strong><span class='timer-${name}'>${time}</span>`
-        }else this.Timer.textContent = time;
+        }else thisTimer.textContent = time;
     }
 })
 
