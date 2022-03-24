@@ -86,12 +86,12 @@ window.addEventListener("click", (event)=>{
 
 worker.addEventListener("message", (e) =>{
     const {msg, data} = e.data;
-    if(msg === "fps") fpsCanvas.textContent = e.data;
+    if(msg === "fps") fpsCanvas.textContent = data;
     else if(msg === "timer"){
         const {time, name} = data;
         let thisTimer = timerContainer.querySelector(`.${name}`);
         if(!thisTimer){
-            timerContainer.append(`<strong>${name}</strong><span class='${name}'>${time}</span>`)
+            timerContainer.innerHTML += `<strong>${name}</strong><span class='${name}'>${time}</span>`
         }else this.Timer.textContent = time;
     }
 })

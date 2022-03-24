@@ -24,7 +24,7 @@ const timer = () =>{
         timers[name] = performance.now();
     }
     const end = (name = "default", send = true) =>{
-        const time = Math.round(performance.now() - timers[name] * 1000) / 1000;
+        const time = Math.round((performance.now() - timers[name]) * 1000) / 1000;
         if(send) postMessage({msg:"timer", data: {time, name}});
         return time;
     }
