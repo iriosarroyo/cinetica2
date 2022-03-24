@@ -7,8 +7,8 @@ export const calculateFPScreator = (maxSize) =>{
         const nextFps = 1000/(now - lastTime);
         fpsHistory = [nextFps, ...fpsHistory.slice(0, maxSize - 1)];
         lastTime = now;
-    
         const averageFPS = Math.round(fpsHistory.reduce((acum, val) => acum + val) / fpsHistory.length);
+        if(maxSize === 10) postMessage({fps: fpsHistory.toString(), nextFps, averageFPS});
         return averageFPS;
     }
 }

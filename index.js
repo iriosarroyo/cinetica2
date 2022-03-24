@@ -78,3 +78,7 @@ window.addEventListener("click", (event)=>{
     molecules[index].fillStyle = "purple";
     selectedMolecule = molecules[index];
 })
+
+worker.addEventListener("message", (e) =>{
+    dataContainer.innerHTML = `${e.data.fps}<br>${e.data.nextFps}<br>${e.data.averageFPS}`;
+})
