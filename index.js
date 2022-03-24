@@ -89,9 +89,9 @@ worker.addEventListener("message", (e) =>{
     if(msg === "fps") fpsCanvas.textContent = data;
     else if(msg === "timer"){
         const {time, name} = data;
-        let thisTimer = timerContainer.querySelector(`.${name}`);
+        let thisTimer = timerContainer.querySelector(`.timer-${name}`);
         if(!thisTimer){
-            timerContainer.innerHTML += `<strong>${name}</strong><span class='${name}'>${time}</span>`
+            timerContainer.innerHTML += `<strong>${name}</strong><span class='timer-${name}'>${time}</span>`
         }else this.Timer.textContent = time;
     }
 })
