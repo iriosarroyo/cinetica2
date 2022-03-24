@@ -11,10 +11,9 @@
       margin:0;
       height: 100vh;
     }
-    .data{
+    .data, .fps{
       position: fixed;
       background-color: #ffffff48;
-      bottom: 0;
       right:0;
       display: grid;
       grid-template-columns: max-content max-content;
@@ -22,11 +21,21 @@
       padding: 5px 10px;
       border-radius: 25px;
     }
+    .data{
+      bottom: 0;
+    }
+    .fps{
+      top:0;
+    }
     
   </style>
 </head>
 <body>
   <canvas class="playground"></canvas>
   <div class="data"></div>
+  <div class="fps">
+    <strong>Canvas</strong><span class="canvasFps"></span>
+    <strong>Physics</strong><span class="physicsFps"></span>
+  </div>
 </body>
 </html>

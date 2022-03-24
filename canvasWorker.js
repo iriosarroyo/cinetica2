@@ -1,7 +1,7 @@
 import { drawMolecule } from "./drawer.js";
 import { calculateFPScreator } from "./helper.js";
 
-let cv, fps = calculateFPScreator(10), moleculesByStyle, physicsFPS;
+let cv, fps = calculateFPScreator(10, true), moleculesByStyle, physicsFPS;
 /**
  * @type {CanvasRenderingContext2D}
 */
@@ -9,7 +9,7 @@ let ctx;
 
 const draw = () =>{
     ctx.clearRect(0, 0, cv.width, cv.height);
-    ctx.font = "15px Arial";
+   /*  ctx.font = "15px Arial"; */
     ctx.strokeStyle = 'rgb(0,128,128)';
     // For loop for optimizing
     for(let i = 0; i< moleculesByStyle.length; i++){
@@ -17,21 +17,21 @@ const draw = () =>{
         ctx.fillStyle = fillStyle;
         for(let j = 0; j<moleculesInGroup.length; j++) drawMolecule(moleculesInGroup[j], ctx);
     }
-    ctx.fillStyle = "black";
+   /*  ctx.fillStyle = "black";
     ctx.fillText(fps(), cv.width - 26, 20);
-    ctx.fillText(physicsFPS, cv.width - 26, 40);
+    ctx.fillText(physicsFPS, cv.width - 26, 40); */
     requestAnimationFrame(draw)
 }
 
 const messageListener = (event) => {
-    const {canvas, msg, molecules, h, w, phFPS, first} = event.data;
+    const {canvas, msg, molecules, h, w, first} = event.data;
     if(msg === "start"){
         cv = canvas;
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
         moleculesByStyle = molecules;
-        physicsFPS = phFPS;
+        //physicsFPS = phFPS;
         if(first) draw();
     }
     if(msg === "update"){

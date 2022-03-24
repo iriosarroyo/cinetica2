@@ -6,10 +6,12 @@ import { Molecule } from "./Molecule.js"
 
 const offscreen = document.querySelector("canvas.playground").transferControlToOffscreen();
 const dataContainer = document.querySelector("div.data");
+const fpsCanvas = document.querySelector(".canvasFps");
+const fpsPhysics = document.querySelector(".physicsFps");
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0, selectedMolecule;
-let molecules = Array(1000)
+let molecules = Array(5000)
     .fill(null)
     .map(() => new Molecule(2, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
 
@@ -52,7 +54,8 @@ const physicsLoop = () =>{
 
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
-    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first:first === true, phFPS})
+    fpsPhysics.textContent = phFPS;
+    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first:first === true})
     window.requestAnimationFrame(drawLoop)
 };
 
@@ -80,5 +83,5 @@ window.addEventListener("click", (event)=>{
 })
 
 worker.addEventListener("message", (e) =>{
-    dataContainer.innerHTML = `${e.data.fps}<br>${e.data.nextFps}<br>${e.data.averageFPS}<br>${e.data.time}`;
+    fpsCanvas.textContent = e.data;
 })
