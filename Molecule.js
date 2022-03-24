@@ -93,7 +93,7 @@ export class Molecule{
 
     showInfo(div){
         div.innerHTML = `
-        <strong>r</strong><span>${this.r}</span>
+        <strong>r</strong><span>${Math.round(this.r * 100) /100}</span>
         <strong>x</strong><span>${Math.round(this.pos.x)}</span>
         <strong>y</strong><span>${Math.round(this.pos.y)}</span>
         <strong>vel. x</strong><span>${Math.round(this.vel.x * 100) * 0.01}</span>
@@ -111,7 +111,7 @@ export class Molecule{
     getLineOfDirection(){
         const {pos, r, vel} = this;
         const angle = vel.angle();
-        const dist = Vector.createWithAngle(angle, 1.5 * r);
+        const dist = Vector.createWithAngle(angle, r + this.vel.module());
         const end = Vector.add(pos, dist);
         return {endX: end.x, endY: end.y};
     }
@@ -156,7 +156,7 @@ export class Molecule{
     }
 
     setFillStyle(style){
-        if(this.selected) return;
+        //if(this.selected) return;
         this.fillStyle = style;
         if(style !== "black") this.fillDuration = DEFAULT_DURATION;
     }
