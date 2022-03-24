@@ -8,10 +8,11 @@ const offscreen = document.querySelector("canvas.playground").transferControlToO
 const dataContainer = document.querySelector("div.data");
 const fpsCanvas = document.querySelector(".canvasFps");
 const fpsPhysics = document.querySelector(".physicsFps");
+const moleculesNum = document.querySelector(".moleculesNum");
 const worker = new Worker("./canvasWorker.js", {type: "module"});
 const fps = calculateFPScreator(1000);
 let phFPS = 0, selectedMolecule;
-let molecules = Array(5000)
+let molecules = Array(1000)
     .fill(null)
     .map(() => new Molecule(2, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
 
@@ -84,4 +85,10 @@ window.addEventListener("click", (event)=>{
 
 worker.addEventListener("message", (e) =>{
     fpsCanvas.textContent = e.data;
+})
+
+moleculesNum.addEventListener("change", (e) =>{
+    while(parseInt(e.target.value) > molecules.length)
+        molecules.push(new Molecule(2, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
+    molecules.length = parseInt(e.target.value);
 })
