@@ -9,6 +9,7 @@ const dataContainer = document.querySelector("div.data");
 const fpsCanvas = document.querySelector(".canvasFps");
 const fpsPhysics = document.querySelector(".physicsFps");
 const fpsIndex = document.querySelector(".indexFps");
+const velMedia = document.querySelector(".velMedia");
 const moleculesNum = document.querySelector(".moleculesNum");
 const moleculesR = document.querySelector(".moleculesR");
 const timerContainer = document.querySelector(".timer");
@@ -59,6 +60,7 @@ const physicsLoop = () =>{
 
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
+    velMedia.textContent = molecules.reduce((acum, val) => acum + val.vel.module(), 0) / molecules.length;
     fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
     worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first:first === true})
