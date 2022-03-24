@@ -125,7 +125,7 @@ workers = startWorkers();
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 startMolecules(100);
-setInterval(physicsLoop)
+setInterval(physicsLoop, 40)
 //physicsLoop();
 drawLoop(true);
 
