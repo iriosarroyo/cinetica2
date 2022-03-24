@@ -13,12 +13,14 @@ export class Vector{
         const {x, y} = vector;
         this.x += x;
         this.y += y;
+        return this;
     }
 
     sub(vector){
         const {x, y} = vector;
         this.x -= x;
         this.y -= y;
+        return this;
     }
 
     squaredModule(){
@@ -33,6 +35,7 @@ export class Vector{
         const module = this.module();
         this.x /= module;
         this.y /= module;
+        return this;
     }
 
     static add(vector1, vector2){

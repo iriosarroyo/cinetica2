@@ -5,6 +5,15 @@ const DEFAULT_DURATION = 100;
 export class Molecule{
     #selected
     #collisioned
+    #r
+    set r(val){
+        this.#r = randomBetween(val*0.5, val*2);
+        this.m = this.#r ** 2;
+    }
+
+    get r(){
+        return this.#r
+    }
     constructor(r, minMax){
         const {minX, minY, minVelX, minVelY, maxX, maxY, maxVelX, maxVelY} = minMax;
         this.r = r;
@@ -33,10 +42,10 @@ export class Molecule{
                                Math.min(Math.max(y, minY + r), maxY - r)));
         
         this.fillDuration = Math.max(0, this.fillDuration - 1);
-        if(x - minX - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(1, 0)));
-        if(maxX - r - x < 0) this.setVel(Vector.reflect(this.vel, new Vector(-1, 0)));
-        if(y - minY - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, -1)));
-        if(maxY - r - y  < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, 1)));
+        if(x - minX - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(1, 0))); //left wall
+        if(maxX - r - x < 0) this.setVel(Vector.reflect(this.vel, new Vector(-1, 0))); //right wall
+        if(y - minY - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, -1))); //top wall
+        if(maxY - r - y  < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, 1))); //bottom wall
     }
 
     hasCollisioned(molecule){
@@ -50,13 +59,13 @@ export class Molecule{
     checkCollision(molecule){
         if(!this.hasCollisioned(molecule)) return false;
 
-        const {pos, vel, r} = this;
-        const {pos:pos2, vel:vel2, r:r2} = molecule;
+        const {pos, vel, r, m} = this;
+        const {pos:pos2, vel:vel2, r:r2, m:m2} = molecule;
         const distance = (r + r2) * 1.01;
         const dPos = Vector.sub(pos, pos2);
         const angle = dPos.angle();
         const newDPos = Vector.createWithAngle(angle, distance);
-        if(Math.random() < 0.25){
+        if(Math.random() < 0.5){
             this.setPos(Vector.add(pos2, newDPos));
         }else{
             molecule.setPos(Vector.sub(pos, newDPos));
@@ -64,11 +73,11 @@ export class Molecule{
         
         /* this.setVel(vel2);
         molecule.setVel(vel); */
-        const cOfMass = Vector.mult(Vector.add(this.vel, molecule.vel), 0.5);
+        const cOfMass = Vector.mult(Vector.add(this.vel, molecule.vel), 1/(m+m2));
         const normal1 = Vector.sub(molecule.pos, this.pos).normalize();
         const normal2 = Vector.sub(this.pos, molecule.pos).normalize();
 
-        this.changeVelocityAfterCol(cOfMass, normal);
+        this.changeVelocityAfterCol(cOfMass, normal1);
         molecule.changeVelocityAfterCol(cOfMass, normal2)
 
         this.collisioned = true;
