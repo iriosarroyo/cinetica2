@@ -84,10 +84,10 @@ workers = startWorkers();
 resizeCanvas();
 const physicsWorker = new Worker("./physicsWorker.js", {type: "module"});
 window.addEventListener("resize", ()=>{
-    physicsWorker.postMessage({msg:"resize", w:innerWidth, h:innerHeight});
+    physicsWorker.postMessage({msg:"resize", data:{w:innerWidth, h:innerHeight}});
     resizeCanvas()
 });
-physicsWorker.postMessage({msg:"start", w:innerWidth, h:innerHeight});
+physicsWorker.postMessage({msg:"start", data:{w:innerWidth, h:innerHeight}});
 physicsWorker.addEventListener("message", (e) =>{
     const {msg, data} = e;
     if(msg === "molecules") molecules = data;
