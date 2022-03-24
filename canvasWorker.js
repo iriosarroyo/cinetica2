@@ -8,24 +8,18 @@ let cv, fps = calculateFPScreator(10), moleculesByStyle, physicsFPS;
 let ctx;
 
 const draw = () =>{
-    console.time("restart")
     ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.font = "15px Arial";
     ctx.strokeStyle = 'rgb(0,128,128)';
-    console.timeEnd("restart")
-    console.time("draw");
     // For loop for optimizing
     for(let i = 0; i< moleculesByStyle.length; i++){
         const [fillStyle, moleculesInGroup] = moleculesByStyle[i];
         ctx.fillStyle = fillStyle;
         for(let j = 0; j<moleculesInGroup.length; j++) drawMolecule(moleculesInGroup[j], ctx);
     }
-    console.timeEnd("draw");
-    console.time("text");
     ctx.fillStyle = "black";
     ctx.fillText(fps(), cv.width - 26, 20);
     ctx.fillText(physicsFPS, cv.width - 26, 40);
-    console.timeEnd("text");
     requestAnimationFrame(draw)
 }
 

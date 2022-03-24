@@ -44,15 +44,19 @@ const physicsLoop = () =>{
     phFPS = fps();
     if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
     
-    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), phFPS})
     //setTimeout(physicsLoop)
 };
+
+
 
 
 const drawLoop = () =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
     //window.requestAnimationFrame(drawLoop)
+    worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), phFPS})
 };
+
+setInterval(drawLoop, 100)
 
 worker.postMessage({canvas: offscreen, msg: "start"}, [offscreen]);
 resizeCanvas();
