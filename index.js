@@ -75,7 +75,7 @@ const physicsLoop = () =>{
     const numOfMoleculesPerWorker = molecules.length / workers.length;
     for(let i = 0; i < workers.length; i++) 
         moleculeByWorker[i] = groupByFillStyle(
-            molecules.slice(Math.round(idx * numOfMoleculesPerWorker), Math.round((idx + 1) * numOfMoleculesPerWorker))
+            molecules.slice(Math.round(i * numOfMoleculesPerWorker), Math.round((i + 1) * numOfMoleculesPerWorker))
         );
     
     //setTimeout(physicsLoop)
