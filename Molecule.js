@@ -9,7 +9,7 @@ export class Molecule{
         const {minX, minY, minVelX, minVelY, maxX, maxY, maxVelX, maxVelY} = minMax;
         this.r = r;
         this.setPos(new Vector(randomBetween(minX + r, maxX - r), randomBetween(minY + r, maxY - r)))
-        this.setVel(randomBetween(minVelX, maxVelX), randomBetween(minVelY, maxVelY));
+        this.setVel(new Vector(randomBetween(minVelX, maxVelX), randomBetween(minVelY, maxVelY)));
         this.setFillStyle("black");
         this.fillDuration = 0;
         this.lastTime = performance.now();
@@ -91,7 +91,7 @@ export class Molecule{
         const {pos, r, vel} = this;
         const angle = vel.angle();
         const dist = Vector.createWithAngle(angle, 1.5 * r);
-        const end = Vector.sum(pos, dist);
+        const end = Vector.add(pos, dist);
         return {endX: end.x, endY: end.y};
     }
 

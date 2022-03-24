@@ -6,7 +6,7 @@ export class Vector{
 
     angle(){
         const angle = Math.atan(this.y/this.x);
-        return x < 0 ? angle + Math.PI : angle;
+        return this,x < 0 ? angle + Math.PI : angle;
     }
 
     add(vector){
