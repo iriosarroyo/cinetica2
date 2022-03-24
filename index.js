@@ -60,7 +60,7 @@ const physicsLoop = () =>{
 
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
-    velMedia.textContent = molecules.reduce((acum, val) => acum + val.vel.module(), 0) / molecules.length;
+    velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module(), 0) / molecules.length * 100) / 100;
     fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
     worker.postMessage({msg:"draw", molecules:groupByFillStyle(molecules), first:first === true})

@@ -73,7 +73,7 @@ export class Molecule{
         
         /* this.setVel(vel2);
         molecule.setVel(vel); */
-        const cOfMass = Vector.mult(Vector.add(this.vel, molecule.vel), 1/(m+m2));
+        const cOfMass = Vector.mult(Vector.add(this.getMomentum(), molecule.getMomentum()), 1/(m+m2));
         const normal1 = Vector.sub(molecule.pos, this.pos).normalize();
         const normal2 = Vector.sub(this.pos, molecule.pos).normalize();
 
@@ -149,6 +149,10 @@ export class Molecule{
     
     setVel(val){
         this.vel = val;
+    }
+
+    getMomentum(){
+        return Vector.mult(this.vel, this.m);
     }
 
     setFillStyle(style){
