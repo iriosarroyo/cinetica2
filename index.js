@@ -73,11 +73,13 @@ const physicsLoop = () =>{
     phFPS = fps();
     if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
     const numOfMoleculesPerWorker = molecules.length / workers.length;
+    console.time("group")
     for(let i = 0; i < workers.length; i++) 
-        moleculeByWorker[i] = groupByFillStyle(
-            molecules.slice(Math.round(i * numOfMoleculesPerWorker), Math.round((i + 1) * numOfMoleculesPerWorker))
+    moleculeByWorker[i] = groupByFillStyle(
+        molecules.slice(Math.round(i * numOfMoleculesPerWorker), Math.round((i + 1) * numOfMoleculesPerWorker))
         );
-    
+        
+    console.timeEnd("group")
     //setTimeout(physicsLoop)
 };
 
