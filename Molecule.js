@@ -62,12 +62,24 @@ export class Molecule{
             molecule.setPos(Vector.sub(pos, newDPos));
         }
         
-        this.setVel(vel2);
-        molecule.setVel(vel);
+        /* this.setVel(vel2);
+        molecule.setVel(vel); */
+        const cOfMass = Vector.mult(Vector.add(this.vel, molecule.vel), 0.5);
+        const normal1 = Vector.sub(molecule.pos, this.pos).normalize();
+        const normal2 = Vector.sub(this.pos, molecule.pos).normalize();
+
+        this.changeVelocityAfterCol(cOfMass, normal);
+        molecule.changeVelocityAfterCol(cOfMass, normal2)
 
         this.collisioned = true;
         molecule.collisioned = true;
         return true;
+    }
+
+    changeVelocityAfterCol(cOfMass, normal){
+        this.vel.sub(cOfMass);
+        this.setVel(Vector.reflect(this.vel, normal));
+        this.vel.add(cOfMass);
     }
 
     showInfo(div){
