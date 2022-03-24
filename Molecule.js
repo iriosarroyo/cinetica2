@@ -65,7 +65,7 @@ export class Molecule{
         const newDY = distance * Math.sin(angle);
         const xToAdd = x2 < x ? newDX : -newDX;
         const yToAdd = y2 < y ? newDY : -newDY;
-        if(Math.random() < 0.25){
+        if(Math.random() < 5){
             this.setX(x2 + xToAdd);
             this.y = y2 + yToAdd;
         }else{
