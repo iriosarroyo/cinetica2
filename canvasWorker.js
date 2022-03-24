@@ -3,7 +3,7 @@ import { endTimer } from "./helper.js";
 import { startTimer } from "./helper.js";
 import { calculateFPScreator } from "./helper.js";
 
-let cv, fps = calculateFPScreator(10, true, ID), moleculesByStyle, physicsFPS, ID;
+let cv, fps = calculateFPScreator(10, true), moleculesByStyle, physicsFPS, ID;
 /**
  * @type {CanvasRenderingContext2D}
 */

@@ -108,7 +108,7 @@ const startWorkers = () =>{
             id: i, 
             msg: "start"
         }, [offscreen]);
-        worker.addEventListener("message", (event) => workerListener(event, i))
+        thisWorkers[i].addEventListener("message", (event) => workerListener(event, i))
     }
     return thisWorkers;
 }
