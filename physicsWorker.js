@@ -1,4 +1,5 @@
 import { Molecule } from "./Molecule.js";
+import { calculateFPScreator } from "./helper.js";
 const fps = calculateFPScreator(1000);
 
 let r = 2, molecules = [], selectedMolecule, phFPS, div;
@@ -32,11 +33,13 @@ const physicsLoop = () =>{
     if(selectedMolecule){ selectedMolecule.showInfo(div) }   
 };
 
+startMolecules(1000);
+setInterval(physicsLoop);
+
 addEventListener("message", (event)=>{
     const {msg, data} = event.data;
     if(msg === "start"){
-        startMolecules(1000);
-        setInterval(physicsLoop);
+        
     }else if(msg === "select"){
         const {clientX, clientY, dataContainer} = data;
         div = dataContainer;
