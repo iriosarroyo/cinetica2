@@ -29,7 +29,7 @@ const physicsLoop = () =>{
     allCollisionCheck(molecules);
     phFPS = fps();
     postMessage({msg:"fps", data:phFPS })
-    postMessage({msg:"molecules", data:molecules })
+    postMessage({msg:"molecules", data:molecules.map(molecule=>molecule.getDataToSend()) })
     if(selectedMolecule){ selectedMolecule.showInfo(div) }   
 };
 

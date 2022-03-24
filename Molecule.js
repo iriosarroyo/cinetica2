@@ -117,9 +117,9 @@ export class Molecule{
     }
 
     getDataToSend(){
-        const {pos, r} = this;
+        const {pos, r, fillStyle} = this;
         const {endX, endY} = this.getLineOfDirection();
-        return {x:Math.round(pos.x), y:Math.round(pos.y), r:Math.round(r), endX, endY}
+        return {x:Math.round(pos.x), y:Math.round(pos.y), r:Math.round(r), endX, endY, fillStyle}
     }
 
     set selected(val){

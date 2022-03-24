@@ -45,7 +45,7 @@ const groupByFillStyle = (actualMolecules) =>{
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
     console.time("velmedia")
-    velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module() ** 2 * val.m, 0) / molecules.length * 100) / 100;
+    //velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module() ** 2 * val.m, 0) / molecules.length * 100) / 100;
     fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
     console.timeEnd("velmedia");
