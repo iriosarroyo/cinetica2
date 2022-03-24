@@ -80,5 +80,5 @@ window.addEventListener("click", (event)=>{
 })
 
 worker.addEventListener("message", (e) =>{
-    dataContainer.innerHTML = `${e.data.fps}<br>${e.data.nextFps}<br>${e.data.averageFPS}`;
+    dataContainer.innerHTML = `${e.data.fps}<br>${e.data.nextFps}<br>${e.data.averageFPS}<br>${e.data.time}`;
 })
