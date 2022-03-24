@@ -1,8 +1,4 @@
 import { calculateFPScreator } from "./helper.js";
-//import { allCollisionCheck } from "./physics.js";
-import { updateMoleculePosition } from "./physics.js";
-import { checkWallCollisions } from "./physics.js";
-import { Molecule } from "./Molecule.js"
 
 const dataContainer = document.querySelector("div.data");
 const fpsCanvas = document.querySelector(".canvasFps");
@@ -12,19 +8,8 @@ const velMedia = document.querySelector(".velMedia");
 const moleculesNum = document.querySelector(".moleculesNum");
 const moleculesR = document.querySelector(".moleculesR");
 const timerContainer = document.querySelector(".timer");
-const fps = calculateFPScreator(1000);
 const idxFPS = calculateFPScreator(10);
-let phFPS = 0, selectedMolecule;
-let r = 10;
-let molecules = [], workers = [], moleculeByWorker = []; 
-
-const startMolecules = (number) =>{
-    molecules = Array(number)
-        .fill(null)
-        .map(() => new Molecule(r, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
-
-    molecules.forEach(molecule => molecule.checkWallCollisions({ minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight}));
-}
+let molecules = [], workers = [], moleculeByWorker = [], phFPS; 
 
 const sendResize = (worker) => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
 const resizeCanvas = () => workers.forEach(sendResize);
@@ -46,17 +31,6 @@ const workerListener = (e, id) =>{
     }
 };
 
-const allCollisionCheck = (molecules) =>{
-    molecules.sort((a,b) => a.minX - b.minX);
-    for(let i = 0; i < molecules.length; i++){
-        let offset = 1;
-        while(molecules[i + offset] && molecules[i].maxX >= molecules[i + offset].minX){
-            molecules[i].checkCollision(molecules[i + offset]);
-            offset++;
-        }
-        molecules[i].checkWallCollisions({minX: 0, minY:0, maxX:window.innerWidth, maxY:window.innerHeight})
-    }
-}
 
 const groupByFillStyle = (actualMolecules) =>{
     const fillStyles = {};
@@ -67,24 +41,6 @@ const groupByFillStyle = (actualMolecules) =>{
     return Object.entries(fillStyles);
 }
 
-const physicsLoop = () =>{
-    molecules.forEach(molecule => molecule.updatePosition())
-    allCollisionCheck(molecules);
-    phFPS = fps();
-    if(selectedMolecule){ selectedMolecule.showInfo(dataContainer) }
-    const numOfMoleculesPerWorker = molecules.length / workers.length;
-    console.time("group")
-    for(let i = 0; i < workers.length; i++) 
-    moleculeByWorker[i] = JSON.stringify(groupByFillStyle(
-        molecules.slice(Math.round(i * numOfMoleculesPerWorker), Math.round((i + 1) * numOfMoleculesPerWorker))
-        ));
-        
-    console.timeEnd("group")
-    //setTimeout(physicsLoop)
-};
-
-
-
 
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
@@ -93,11 +49,14 @@ const drawLoop = (first) =>{
     fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
     console.timeEnd("velmedia");
-    console.time(); 
+    console.time();
+    const numOfMoleculesPerWorker = molecules.length / workers.length; 
     workers.forEach((worker, idx) => {
         worker.postMessage({
             msg:"draw", 
-            molecules: moleculeByWorker[idx],
+            molecules: JSON.stringify(groupByFillStyle(
+                molecules.slice(Math.round(idx * numOfMoleculesPerWorker), Math.round((idx + 1) * numOfMoleculesPerWorker))
+            )),
         })
     })
     console.timeEnd();
@@ -124,37 +83,25 @@ const startWorkers = () =>{
 workers = startWorkers();
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-startMolecules(100);
-setInterval(physicsLoop, 40)
-//physicsLoop();
+const physicsWorker = new Worker("physicsWorker.js", {type: "module"});
+physicsWorker.addEventListener("message", (e) =>{
+    const {msg, data} = e;
+    if(msg === "molecules") molecules = data;
+    else if (msg === "fps") phFPS = data;
+});
 drawLoop(true);
 
 window.addEventListener("click", (event)=>{
     const {clientX, clientY} = event;
-    let minimum = Infinity, index;
-    molecules.forEach((molecule, idx) =>{
-        molecules[idx].selected = false;
-        const distance = (molecule.pos.x - clientX)**2 + (molecule.pos.y - clientY) ** 2
-        if( distance >= minimum) return;
-        minimum = distance;
-        index = idx
-    });
-    molecules[index].selected = true;
-    molecules[index].fillStyle = "purple";
-    selectedMolecule = molecules[index];
+    physicsWorker.postMessage({msg:"select", data:{clientX, clientY, dataContainer}},[dataContainer]);
 })
 
 
 
 moleculesNum.addEventListener("change", (e) =>{
-    /* while(parseInt(e.target.value) > molecules.length)
-        molecules.push(new Molecule(r, { minX: 0, minY: 0, maxX:window.innerWidth, maxY:window.innerHeight, minVelX: -0.3, minVelY: -0.3, maxVelX: 0.3, maxVelY: 0.3}))
-    molecules.sort(()=>Math.random() - 0.5);
-    molecules.length = parseInt(e.target.value); */
-    startMolecules(parseInt(e.target.value));
+    physicsWorker.postMessage({msg:"number", data:parseInt(e.target.value)});
 })
 
 moleculesR.addEventListener("change", (e) =>{
-    r = parseInt(e.target.value);
-    startMolecules(molecules.length);
+    physicsWorker.postMessage({msg:"radius", data:parseInt(e.target.value)});
 })
