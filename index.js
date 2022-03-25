@@ -74,6 +74,7 @@ const startWorkers = () =>{
             msg: "start"
         }, [offscreen]);
         thisWorkers[i].addEventListener("message", (event) => workerListener(event, i))
+        thisWorkers[i].addEventListener("error", console.error)
     }
     return thisWorkers;
 }
