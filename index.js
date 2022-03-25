@@ -43,11 +43,12 @@ const groupByFillStyle = (actualMolecules) =>{
 }
 
 
-const sendDraw = async() =>{
+const sendDraw = async(first) =>{
     for(let i = 0; i< workers.length; i++){
         workers[i].postMessage({
             msg:"draw", 
             molecules: moleculeByWorker[i],
+            first: first === true
         })
     }
 };
@@ -57,7 +58,7 @@ const drawLoop = (first) =>{
     //velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module() ** 2 * val.m, 0) / molecules.length * 100) / 100;
     //fpsPhysics.textContent = phFPS;
     fpsIndex.textContent = idxFPS();
-    sendDraw();
+    sendDraw(first);
     window.requestAnimationFrame(drawLoop)
 };
 
