@@ -34,10 +34,11 @@ const workerListener = (e, id) =>{
 
 const groupByFillStyle = (actualMolecules) =>{
     const fillStyles = {};
-    actualMolecules.forEach((molecule) =>{
+    for(let i = 0; i < actualMolecules.length; i++){
+        const molecule = actualMolecules[i];
         if(!fillStyles[molecule.fillStyle]) fillStyles[molecule.fillStyle] = [];
         fillStyles[molecule.fillStyle].push(molecule);
-    })
+    }
     return Object.entries(fillStyles);
 }
 
@@ -50,15 +51,13 @@ const drawLoop = (first) =>{
     fpsIndex.textContent = idxFPS();
     console.timeEnd("velmedia");
     console.time();
-    const numOfMoleculesPerWorker = molecules.length / workers.length; 
-    workers.forEach((worker, idx) => {
-        worker.postMessage({
+    const numOfMoleculesPerWorker = Math.ceil(molecules.length / workers.length); 
+    for(let i = 0; i< workers.length; i++){
+        workers[i].postMessage({
             msg:"draw", 
-            molecules: JSON.stringify(groupByFillStyle(
-                molecules.slice(Math.round(idx * numOfMoleculesPerWorker), Math.round((idx + 1) * numOfMoleculesPerWorker))
-            )),
+            molecules: groupByFillStyle(molecules.splice(0, numOfMoleculesPerWorker)),
         })
-    })
+    }
     console.timeEnd();
     window.requestAnimationFrame(drawLoop)
 };
