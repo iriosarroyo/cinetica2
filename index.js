@@ -51,13 +51,13 @@ const drawLoop = (first) =>{
     fpsIndex.textContent = idxFPS();
     console.timeEnd("velmedia");
     console.time();
-    const numOfMoleculesPerWorker = Math.ceil(molecules.length / workers.length); 
+    (async () =>{
     for(let i = 0; i< workers.length; i++){
         workers[i].postMessage({
             msg:"draw", 
             molecules: moleculeByWorker[i],
         })
-    }
+    }})()
     console.timeEnd();
     window.requestAnimationFrame(drawLoop)
 };
