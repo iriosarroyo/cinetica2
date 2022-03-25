@@ -53,10 +53,12 @@ const sendDraw = async(first) =>{
     }
 };
 
+let hasStarted = false;
 const drawLoop = (first) =>{
     //worker.postMessage({msg:"draw", molecules, phFPS})
     //velMedia.textContent = Math.round(molecules.reduce((acum, val) => acum + val.vel.module() ** 2 * val.m, 0) / molecules.length * 100) / 100;
     //fpsPhysics.textContent = phFPS;
+    hasStarted = true;
     fpsIndex.textContent = idxFPS();
     sendDraw(first);
     window.requestAnimationFrame(drawLoop)
@@ -96,14 +98,14 @@ physicsWorker.addEventListener("message", (e) =>{
         for(let i = 0; i< workers.length; i++){
             moleculeByWorker[i] = groupByFillStyle(molecules.splice(0, numOfMoleculesPerWorker))
         }
+        if(!hasStarted) drawLoop(true);
     } 
     else if (msg === "fps") phFPS = data;
 });
-drawLoop(true);
 
 window.addEventListener("click", (event)=>{
     const {clientX, clientY} = event;
-    physicsWorker.postMessage({msg:"select", data:{clientX, clientY, dataContainer}},[dataContainer]);
+    physicsWorker.postMessage({msg:"select", data:{clientX, clientY}});
 })
 
 
