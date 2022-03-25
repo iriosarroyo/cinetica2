@@ -29,6 +29,7 @@ export class Molecule{
         const dt = now - this.lastTime;
         this.lastTime = now;
         this.setPos(Vector.add(this.pos, Vector.mult(this.vel, dt)));
+        this.fillDuration = Math.max(0, this.fillDuration - 1);
         if(this.fillDuration < 1) this.setFillStyle("black");
         this.collisioned = false;
     }
@@ -41,7 +42,6 @@ export class Molecule{
         this.setPos(new Vector(Math.min(Math.max(x, minX + r), maxX - r),
                                Math.min(Math.max(y, minY + r), maxY - r)));
         
-        this.fillDuration = Math.max(0, this.fillDuration - 1);
         if(x - minX - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(1, 0))); //left wall
         if(maxX - r - x < 0) this.setVel(Vector.reflect(this.vel, new Vector(-1, 0))); //right wall
         if(y - minY - r < 0) this.setVel(Vector.reflect(this.vel, new Vector(0, -1))); //top wall

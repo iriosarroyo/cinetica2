@@ -25,15 +25,13 @@ const allCollisionCheck = (molecules) =>{
 }
 
 const physicsLoop = () =>{
-    console.time("ph-update");
-    molecules.forEach(molecule => molecule.updatePosition())
-    console.timeEnd("ph-update")
-    console.time("ph-collisions")
+    for(let i = 0; i < molecules.length; i++) molecules[i].updatePosition();
     allCollisionCheck(molecules);
-    console.timeEnd("ph-collisions")
-    phFPS = fps();
-    postMessage({msg:"fps", data:phFPS })
-    postMessage({msg:"molecules", data:molecules.map(molecule=>molecule.getDataToSend()) })
+    //phFPS = fps();
+    //postMessage({msg:"fps", data:phFPS })
+    const data = []
+    for(let i = 0; i < molecules.length; i++) data.push(molecules[i].getDataToSend());
+    postMessage({msg:"molecules", data })
     if(selectedMolecule){ selectedMolecule.showInfo(div) }   
 };
 
