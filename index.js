@@ -9,7 +9,7 @@ const moleculesNum = document.querySelector(".moleculesNum");
 const moleculesR = document.querySelector(".moleculesR");
 const timerContainer = document.querySelector(".timer");
 const idxFPS = calculateFPScreator(10);
-let molecules = [], workers = [], moleculeByWorker = [], phFPS; 
+let workers = [], moleculeByWorker = [], phFPS; 
 
 const sendResize = (worker) => worker.postMessage({h:window.innerHeight, w:window.innerWidth, msg:"update"});
 const resizeCanvas = () => workers.forEach(sendResize);
@@ -55,7 +55,7 @@ const drawLoop = (first) =>{
     for(let i = 0; i< workers.length; i++){
         workers[i].postMessage({
             msg:"draw", 
-            molecules: groupByFillStyle(molecules.splice(0, numOfMoleculesPerWorker)),
+            molecules: moleculeByWorker[i],
         })
     }
     console.timeEnd();
@@ -89,7 +89,13 @@ window.addEventListener("resize", ()=>{
 physicsWorker.postMessage({msg:"start", data:{w:innerWidth, h:innerHeight}});
 physicsWorker.addEventListener("message", (e) =>{
     const {msg, data} = e.data;
-    if(msg === "molecules") molecules = data;
+    if(msg === "molecules"){
+        const molecules = data;
+        const numOfMoleculesPerWorker = Math.ceil(molecules.length / workers.length); 
+        for(let i = 0; i< workers.length; i++){
+            moleculeByWorker[i] = groupByFillStyle(molecules.splice(0, numOfMoleculesPerWorker))
+        }
+    } 
     else if (msg === "fps") phFPS = data;
 });
 drawLoop(true);
