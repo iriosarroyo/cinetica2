@@ -19,9 +19,6 @@ const draw = () =>{
         ctx.fillStyle = fillStyle;
         for(let j = 0; j<moleculesInGroup.length; j++) drawMolecule(moleculesInGroup[j], ctx);
     }
-
-    fps();
-    
     requestAnimationFrame(draw)
     counter++;
 }
@@ -33,6 +30,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
+        fps();
         moleculesByStyle = molecules;
         //physicsFPS = phFPS;
         if(first) {

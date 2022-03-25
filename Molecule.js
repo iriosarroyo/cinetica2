@@ -91,8 +91,8 @@ export class Molecule{
         this.vel.add(cOfMass);
     }
 
-    showInfo(div){
-        div.innerHTML = `
+    getHTMLInfo(){
+        return `
         <strong>r</strong><span>${Math.round(this.r * 100) /100}</span>
         <strong>x</strong><span>${Math.round(this.pos.x)}</span>
         <strong>y</strong><span>${Math.round(this.pos.y)}</span>

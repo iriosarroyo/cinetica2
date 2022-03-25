@@ -101,6 +101,7 @@ physicsWorker.addEventListener("message", (e) =>{
         if(!hasStarted) drawLoop(true);
     } 
     else if (msg === "fps") phFPS = data;
+    else if (msg === "selected") dataContainer.innerHTML = data;
 });
 
 window.addEventListener("click", (event)=>{

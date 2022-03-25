@@ -32,7 +32,7 @@ const physicsLoop = () =>{
     const data = []
     for(let i = 0; i < molecules.length; i++) data.push(molecules[i].getDataToSend());
     postMessage({msg:"molecules", data })
-    if(selectedMolecule){ selectedMolecule.showInfo(div) }   
+    if(selectedMolecule){ postMessage({msg:"selected", data:selectedMolecule.getHTMLInfo()}) }   
 };
 
 
