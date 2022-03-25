@@ -43,7 +43,7 @@ const groupByFillStyle = (actualMolecules) =>{
 }
 
 
-const sendDraw = async(first) =>{
+const sendDraw = (first) =>{
     for(let i = 0; i< workers.length; i++){
         workers[i].postMessage({
             msg:"draw", 
@@ -93,15 +93,15 @@ physicsWorker.postMessage({msg:"start", data:{w:innerWidth, h:innerHeight}});
 physicsWorker.addEventListener("message", (e) =>{
     const {msg, data} = e.data;
     if(msg === "molecules"){
-        const molecules = data;
+        const molecules = data.molecules;
         const numOfMoleculesPerWorker = Math.ceil(molecules.length / workers.length); 
         for(let i = 0; i< workers.length; i++){
             moleculeByWorker[i] = groupByFillStyle(molecules.splice(0, numOfMoleculesPerWorker))
         }
+        dataContainer.innerHTML = selected;
         if(!hasStarted) drawLoop(true);
     } 
     else if (msg === "fps") phFPS = data;
-    else if (msg === "selected") dataContainer.innerHTML = data;
 });
 
 window.addEventListener("click", (event)=>{

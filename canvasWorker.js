@@ -30,7 +30,7 @@ const messageListener = (event) => {
         ctx = canvas.getContext("2d");
     }
     if(msg === "draw"){
-        fps();
+        //fps();
         moleculesByStyle = molecules;
         //physicsFPS = phFPS;
         if(first) {

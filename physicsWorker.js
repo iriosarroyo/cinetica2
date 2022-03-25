@@ -29,10 +29,11 @@ const physicsLoop = () =>{
     allCollisionCheck(molecules);
     //phFPS = fps();
     //postMessage({msg:"fps", data:phFPS })
-    const data = []
-    for(let i = 0; i < molecules.length; i++) data.push(molecules[i].getDataToSend());
-    postMessage({msg:"molecules", data })
-    if(selectedMolecule){ postMessage({msg:"selected", data:selectedMolecule.getHTMLInfo()}) }   
+    const infoToSend = []
+    for(let i = 0; i < molecules.length; i++) infoToSend.push(molecules[i].getDataToSend());
+    if(selectedMolecule){ postMessage({msg:"molecules", data:{molecules: infoToSend, selected:selectedMolecule.getHTMLInfo()} }) }   
+    else postMessage({msg:"molecules", data:{molecules: infoToSend, selected:undefined} })
+    requestAnimationFrame(physicsLoop);
 };
 
 
@@ -43,7 +44,8 @@ addEventListener("message", (event)=>{
         w = data.w;
         h = data.h;
         startMolecules(1000);
-        setInterval(physicsLoop);
+        physicsLoop();
+        //setInterval(physicsLoop);
     }else if(msg === "select"){
         const {clientX, clientY, dataContainer} = data;
         div = dataContainer;
