@@ -98,7 +98,7 @@ physicsWorker.addEventListener("message", (e) =>{
         for(let i = 0; i< workers.length; i++){
             moleculeByWorker[i] = groupByFillStyle(molecules.splice(0, numOfMoleculesPerWorker))
         }
-        dataContainer.innerHTML = selected;
+        // dataContainer.innerHTML = selected;
         if(!hasStarted) drawLoop(true);
     } 
     else if (msg === "fps") phFPS = data;
